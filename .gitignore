@@ -1,0 +1,21 @@
+# For PCBs designed using KiCAD: http://www.kicad-pcb.org/
+
+# Temporary files
+*.000
+*.bak
+*.bck
+*.kicad_pcb-bak
+
+# Netlist files (exported from Eeschema)
+*.net
+
+# Autorouter files (exported from Pcbnew)
+.dsn
+
+Resources/
+
+RC1 UI/export/RC1 UI.zip
+
+RC1 Keypad/export/RC1 Keypad.zip
+
+RC1 CPU/export/RC1 CPU.zip
