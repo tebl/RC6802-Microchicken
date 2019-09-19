@@ -1,4 +1,4 @@
-update=19/09/2019 22:26:08
+update=19/09/2019 23:28:43
 version=1
 last_client=kicad
 [pcbnew]
@@ -23,6 +23,18 @@ ModuleOutlineThickness=0.150000000000
 [cvpcb]
 version=1
 NetIExt=net
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=export/
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=Pcbnew
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60
+[general]
+version=1
 [eeschema]
 version=1
 LibDir=../common/library
@@ -58,20 +70,7 @@ LibName28=contrib
 LibName29=valves
 LibName30=mounting
 LibName31=C:/Program Files/KiCad/share/kicad/library/Oscillators
-LibName32=rc6802_backplane
-LibName33=mc6802
-LibName34=C:/Program Files/KiCad/share/kicad/library/switches
-LibName35=mc6821
-LibName36=rc6802_ui_port
-[general]
-version=1
-[schematic_editor]
-version=1
-PageLayoutDescrFile=
-PlotDirectoryName=export/
-SubpartIdSeparator=0
-SubpartFirstId=65
-NetFmtName=Pcbnew
-SpiceForceRefPrefix=0
-SpiceUseNetNumbers=0
-LabSize=60
+LibName32=C:/Program Files/KiCad/share/kicad/library/switches
+LibName33=rc6802_ui_port
+LibName34=sw_keyboard
+LibName35=trs_3.5mm

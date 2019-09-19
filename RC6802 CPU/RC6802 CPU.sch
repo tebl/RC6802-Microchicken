@@ -2635,9 +2635,9 @@ Connection ~ 11725 7750
 Wire Wire Line
 	11325 7850 11725 7850
 Connection ~ 11725 7850
-Text GLabel 9250 4150 0    60   Input ~ 0
+Text GLabel 9250 4150 0    60   Output ~ 0
 ~RESET
-Text GLabel 9250 4050 0    60   Input ~ 0
+Text GLabel 9250 4050 0    60   Output ~ 0
 ~SST
 Wire Wire Line
 	9250 4250 9175 4250
