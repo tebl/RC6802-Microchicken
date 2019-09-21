@@ -1,4 +1,4 @@
-update=19/09/2019 22:26:08
+update=22/09/2019 00:38:45
 version=1
 last_client=kicad
 [pcbnew]
@@ -63,8 +63,6 @@ LibName33=mc6802
 LibName34=C:/Program Files/KiCad/share/kicad/library/switches
 LibName35=mc6821
 LibName36=rc6802_ui_port
-[general]
-version=1
 [schematic_editor]
 version=1
 PageLayoutDescrFile=
@@ -75,3 +73,5 @@ NetFmtName=Pcbnew
 SpiceForceRefPrefix=0
 SpiceUseNetNumbers=0
 LabSize=60
+[general]
+version=1

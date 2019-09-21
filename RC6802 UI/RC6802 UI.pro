@@ -1,4 +1,4 @@
-update=19/09/2019 23:28:43
+update=22/09/2019 00:38:08
 version=1
 last_client=kicad
 [pcbnew]
@@ -23,18 +23,6 @@ ModuleOutlineThickness=0.150000000000
 [cvpcb]
 version=1
 NetIExt=net
-[schematic_editor]
-version=1
-PageLayoutDescrFile=
-PlotDirectoryName=export/
-SubpartIdSeparator=0
-SubpartFirstId=65
-NetFmtName=Pcbnew
-SpiceForceRefPrefix=0
-SpiceUseNetNumbers=0
-LabSize=60
-[general]
-version=1
 [eeschema]
 version=1
 LibDir=../common/library
@@ -74,3 +62,15 @@ LibName32=C:/Program Files/KiCad/share/kicad/library/switches
 LibName33=rc6802_ui_port
 LibName34=sw_keyboard
 LibName35=trs_3.5mm
+[general]
+version=1
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=export/
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=Pcbnew
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60

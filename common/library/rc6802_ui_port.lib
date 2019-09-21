@@ -16,26 +16,46 @@ $FPLIST
  IDC_Header_Straight_*
 $ENDFPLIST
 DRAW
+T 0 -275 150 60 0 0 0 D0 Normal 0 L C
+T 0 -275 250 60 0 0 0 D1 Normal 0 L C
+T 0 -275 350 60 0 0 0 D2 Normal 0 L C
+T 0 -275 450 60 0 0 0 D3 Normal 0 L C
+T 0 -275 550 60 0 0 0 D4 Normal 0 L C
+T 0 -275 650 60 0 0 0 D5 Normal 0 L C
+T 0 -275 750 60 0 0 0 D6 Normal 0 L C
+T 0 -275 850 60 0 0 0 D7 Normal 0 L C
+T 0 275 750 60 0 0 0 E Normal 0 R C
 T 0 -275 -950 60 0 0 0 GND Normal 0 L C
 T 0 -275 950 60 0 0 0 GND Normal 0 L C
-T 0 275 950 60 0 0 0 GND Normal 0 R C
-T 0 275 450 60 0 0 0 PA0 Normal 0 R C
-T 0 275 350 60 0 0 0 PA1 Normal 0 R C
-T 0 275 250 60 0 0 0 PA2 Normal 0 R C
-T 0 275 150 60 0 0 0 PA3 Normal 0 R C
-T 0 -275 150 60 0 0 0 PA4 Normal 0 L C
-T 0 -275 250 60 0 0 0 PA5 Normal 0 L C
-T 0 -275 350 60 0 0 0 PA6 Normal 0 L C
-T 0 -275 450 60 0 0 0 PA7 Normal 0 L C
-T 0 275 550 60 0 0 0 PB0 Normal 0 R C
-T 0 275 650 60 0 0 0 PB1 Normal 0 R C
-T 0 275 750 60 0 0 0 PB2 Normal 0 R C
-T 0 275 850 60 0 0 0 PB3 Normal 0 R C
-T 0 -275 850 60 0 0 0 PB4 Normal 0 L C
-T 0 -275 750 60 0 0 0 PB5 Normal 0 L C
-T 0 -275 650 60 0 0 0 PB6 Normal 0 L C
-T 0 -275 550 60 0 0 0 PB7 Normal 0 L C
+T 0 -275 -850 60 0 0 0 IO0 Normal 0 L C
+T 0 -275 -750 60 0 0 0 IO1 Normal 0 L C
+T 0 -275 -650 60 0 0 0 IO2 Normal 0 L C
+T 0 -275 -550 60 0 0 0 IO3 Normal 0 L C
+T 0 -275 -450 60 0 0 0 IO4 Normal 0 L C
+T 0 -275 -350 60 0 0 0 IO5 Normal 0 L C
+T 0 -275 -250 60 0 0 0 IO6 Normal 0 L C
+T 0 -275 -150 60 0 0 0 IO7 Normal 0 L C
+T 0 275 -850 60 0 0 0 PA0 Normal 0 R C
+T 0 275 -750 60 0 0 0 PA1 Normal 0 R C
+T 0 275 -650 60 0 0 0 PA2 Normal 0 R C
+T 0 275 -550 60 0 0 0 PA3 Normal 0 R C
+T 0 275 -450 60 0 0 0 PA4 Normal 0 R C
+T 0 275 -350 60 0 0 0 PA5 Normal 0 R C
+T 0 275 -250 60 0 0 0 PA6 Normal 0 R C
+T 0 275 -150 60 0 0 0 PA7 Normal 0 R C
+T 0 275 -50 60 0 0 0 PB0 Normal 0 R C
+T 0 275 50 60 0 0 0 PB1 Normal 0 R C
+T 0 275 150 60 0 0 0 PB2 Normal 0 R C
+T 0 275 250 60 0 0 0 PB3 Normal 0 R C
+T 0 275 350 60 0 0 0 PB4 Normal 0 R C
+T 0 275 450 60 0 0 0 PB5 Normal 0 R C
+T 0 275 550 60 0 0 0 PB6 Normal 0 R C
+T 0 275 650 60 0 0 0 PB7 Normal 0 R C
+T 0 -275 50 60 0 0 0 "R/~W" Normal 0 L C
 T 0 275 -950 60 0 0 0 VCC Normal 0 R C
+T 0 -275 -50 60 0 0 0 "~HALT" Normal 0 L C
+T 0 275 950 60 0 0 0 "~RESET" Normal 0 R C
+T 0 275 850 60 0 0 0 "~SST" Normal 0 R C
 S -325 -945 -275 -955 0 1 0 N
 S -325 -845 -275 -855 0 1 0 N
 S -325 -745 -275 -755 0 1 0 N

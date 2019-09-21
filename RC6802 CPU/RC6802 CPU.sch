@@ -270,12 +270,12 @@ R/~W
 $Comp
 L GND #PWR05
 U 1 1 5D65DEF6
-P 10725 2425
-F 0 "#PWR05" H 10725 2175 50  0001 C CNN
-F 1 "GND" H 10725 2275 50  0000 C CNN
-F 2 "" H 10725 2425 50  0001 C CNN
-F 3 "" H 10725 2425 50  0001 C CNN
-	1    10725 2425
+P 10675 2350
+F 0 "#PWR05" H 10675 2100 50  0001 C CNN
+F 1 "GND" H 10675 2200 50  0000 C CNN
+F 2 "" H 10675 2350 50  0001 C CNN
+F 3 "" H 10675 2350 50  0001 C CNN
+	1    10675 2350
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -607,17 +607,6 @@ F 2 "Capacitors_THT:C_Disc_D4.7mm_W2.5mm_P5.00mm" H 2263 4225 50  0001 C CNN
 F 3 "" H 2225 4375 50  0001 C CNN
 	1    2225 4375
 	-1   0    0    -1  
-$EndComp
-$Comp
-L GND #PWR010
-U 1 1 5D729D92
-P 9175 4325
-F 0 "#PWR010" H 9175 4075 50  0001 C CNN
-F 1 "GND" H 9175 4175 50  0000 C CNN
-F 2 "" H 9175 4325 50  0001 C CNN
-F 3 "" H 9175 4325 50  0001 C CNN
-	1    9175 4325
-	1    0    0    -1  
 $EndComp
 $Comp
 L GND #PWR011
@@ -1528,75 +1517,74 @@ F 3 "" H 9000 5650 50  0001 C CNN
 	1    9000 5650
 	1    0    0    -1  
 $EndComp
-Text Label 10525 5225 2    60   ~ 0
-IO0
-Text Label 10525 5325 2    60   ~ 0
-IO1
-Text Label 10525 5425 2    60   ~ 0
-IO2
-Text Label 10525 5525 2    60   ~ 0
-IO3
-Text Label 10525 5625 2    60   ~ 0
-IO4
-Text Label 10525 5725 2    60   ~ 0
-IO5
-Text Label 10525 5825 2    60   ~ 0
-IO6
-Text Label 10525 5925 2    60   ~ 0
-IO7
+Text Label 10300 5225 0    60   ~ 0
+~IO0
+Text Label 10300 5325 0    60   ~ 0
+~IO1
+Text Label 10300 5425 0    60   ~ 0
+~IO2
+Text Label 10300 5525 0    60   ~ 0
+~IO3
+Text Label 10300 5625 0    60   ~ 0
+~IO4
+Text Label 10300 5725 0    60   ~ 0
+~IO5
+Text Label 10300 5825 0    60   ~ 0
+~IO6
+Text Label 10300 5925 0    60   ~ 0
+~IO7
 Entry Wire Line
-	10650 5925 10550 5825
+	10875 5925 10775 5825
 Entry Wire Line
-	10650 5825 10550 5725
+	10875 5825 10775 5725
 Entry Wire Line
-	10650 5725 10550 5625
+	10875 5725 10775 5625
 Entry Wire Line
-	10650 5625 10550 5525
+	10875 5625 10775 5525
 Entry Wire Line
-	10650 5525 10550 5425
+	10875 5525 10775 5425
 Entry Wire Line
-	10650 5425 10550 5325
+	10875 5425 10775 5325
 Entry Wire Line
-	10650 5325 10550 5225
+	10875 5325 10775 5225
 Entry Wire Line
-	10650 6025 10550 5925
+	10875 6025 10775 5925
 Text Label 10450 2450 2    60   ~ 0
-IO0
+~IO0
 Text Label 10450 2550 2    60   ~ 0
-IO1
+~IO1
 Text Label 10450 2650 2    60   ~ 0
-IO2
+~IO2
 Text Label 10450 2750 2    60   ~ 0
-IO3
+~IO3
 Text Label 10450 2850 2    60   ~ 0
-IO4
+~IO4
 Text Label 10450 2950 2    60   ~ 0
-IO5
+~IO5
 Text Label 10450 3050 2    60   ~ 0
-IO6
+~IO6
 Text Label 10450 3150 2    60   ~ 0
-IO7
+~IO7
 Entry Wire Line
-	10575 3150 10475 3050
+	10575 2450 10475 2550
 Entry Wire Line
-	10575 3050 10475 2950
+	10575 2550 10475 2650
 Entry Wire Line
-	10575 2950 10475 2850
+	10575 2650 10475 2750
 Entry Wire Line
-	10575 2850 10475 2750
+	10575 2750 10475 2850
 Entry Wire Line
-	10575 2750 10475 2650
+	10575 2850 10475 2950
 Entry Wire Line
-	10575 2650 10475 2550
+	10575 2950 10475 3050
 Entry Wire Line
-	10575 2550 10475 2450
+	10575 3050 10475 3150
 Entry Wire Line
-	10575 3250 10475 3150
-Text Label 10225 3350 0    60   ~ 0
+	10575 2350 10475 2450
+Text Label 10450 3350 2    60   ~ 0
 R/~W
 Entry Wire Line
 	10575 3450 10475 3350
-NoConn ~ 10200 3250
 Wire Wire Line
 	15750 1150 15850 1150
 Wire Wire Line
@@ -1637,9 +1625,7 @@ Wire Wire Line
 Wire Wire Line
 	4950 4125 4550 4125
 Wire Wire Line
-	10200 2350 10725 2350
-Wire Wire Line
-	10725 2350 10725 2425
+	10275 2275 10675 2275
 Wire Wire Line
 	9175 2275 9175 2350
 Wire Wire Line
@@ -1755,9 +1741,9 @@ Wire Wire Line
 Wire Wire Line
 	8975 3750 9250 3750
 Wire Bus Line
-	8875 2550 8875 4050
+	8875 2550 8875 4150
 Wire Bus Line
-	10575 3450 10575 4250
+	10575 3350 10575 4250
 Wire Wire Line
 	15125 7550 14725 7550
 Wire Wire Line
@@ -2283,23 +2269,23 @@ Wire Wire Line
 Wire Bus Line
 	8575 5125 8575 5325
 Wire Wire Line
-	10275 5225 10550 5225
+	10275 5225 10775 5225
 Wire Wire Line
-	10275 5325 10550 5325
+	10275 5325 10775 5325
 Wire Wire Line
-	10275 5425 10550 5425
+	10275 5425 10775 5425
 Wire Wire Line
-	10275 5525 10550 5525
+	10275 5525 10775 5525
 Wire Wire Line
-	10275 5625 10550 5625
+	10275 5625 10775 5625
 Wire Wire Line
-	10275 5925 10550 5925
+	10275 5925 10775 5925
 Wire Wire Line
-	10275 5825 10550 5825
+	10275 5825 10775 5825
 Wire Wire Line
-	10275 5725 10550 5725
+	10275 5725 10775 5725
 Wire Bus Line
-	10650 5325 10650 6025
+	10875 5325 10875 6025
 Wire Wire Line
 	10200 2450 10475 2450
 Wire Wire Line
@@ -2319,17 +2305,15 @@ Wire Wire Line
 Wire Wire Line
 	10200 3350 10475 3350
 Wire Bus Line
-	10575 2550 10575 3250
-Wire Bus Line
-	10575 2900 10725 2900
+	10575 2350 10575 3050
 Wire Bus Line
 	8550 2975 8550 3300
 Wire Bus Line
 	8550 3300 8875 3300
 Wire Bus Line
-	10650 5675 10725 5675
+	10950 5675 10875 5675
 Wire Bus Line
-	10725 5675 10725 2900
+	10950 2700 10950 5675
 Wire Bus Line
 	8575 5225 5475 5225
 Wire Bus Line
@@ -2635,14 +2619,10 @@ Connection ~ 11725 7750
 Wire Wire Line
 	11325 7850 11725 7850
 Connection ~ 11725 7850
-Text GLabel 9250 4150 0    60   Output ~ 0
+Text GLabel 9250 4250 0    60   Output ~ 0
 ~RESET
-Text GLabel 9250 4050 0    60   Output ~ 0
+Text GLabel 9250 4150 0    60   Output ~ 0
 ~SST
-Wire Wire Line
-	9250 4250 9175 4250
-Wire Wire Line
-	9175 4250 9175 4325
 Wire Wire Line
 	10200 4250 10275 4250
 Wire Wire Line
@@ -2705,4 +2685,40 @@ Entry Wire Line
 	8900 7550 8800 7450
 Text Notes 11825 10350 0    60   ~ 0
 RC6802 Microchicken computer as explained in the book "22 Micro-computer projects:\nTo build, use and learn" by Daniel Metzger. Hardware changed slightly to add a\nsecondary 74LS138 to further divide device area ($2000-$3FFF), original addresses used\nin code examples should be unchanged from original memory map.
+Text Label 9050 4050 0    60   ~ 0
+E
+Wire Wire Line
+	9250 4050 8975 4050
+Entry Wire Line
+	8975 4050 8875 4150
+Text Label 10450 3250 2    60   ~ 0
+~HALT
+Wire Wire Line
+	10200 3250 10475 3250
+Entry Wire Line
+	10575 3350 10475 3250
+Wire Bus Line
+	10575 2700 10950 2700
+Wire Wire Line
+	10200 2350 10275 2350
+Wire Wire Line
+	10275 2350 10275 2275
+Wire Wire Line
+	10675 2275 10675 2350
+Text Notes 10475 5225 0    60   ~ 0
+$2000
+Text Notes 10475 5325 0    60   ~ 0
+$2200
+Text Notes 10475 5425 0    60   ~ 0
+$2400
+Text Notes 10475 5525 0    60   ~ 0
+$2600
+Text Notes 10475 5625 0    60   ~ 0
+$2800
+Text Notes 10475 5725 0    60   ~ 0
+$2A00
+Text Notes 10475 5825 0    60   ~ 0
+$2C00
+Text Notes 10475 5925 0    60   ~ 0
+$2E00
 $EndSCHEMATC
