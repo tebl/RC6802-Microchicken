@@ -1,0 +1,706 @@
+
+SB-Cross Assembler version 3.03.06
+Please visit www.sbprojects.net for a complete description.
+
+Assembling....
+
+Pass one
+Loaded 6800 overlay version 3.01.01
+
+Pass two
+0000-                  1      * ----------------------------------------------------------------------
+0000-                  2      **** MICROCHICKEN 6802 MONITOR **** COPYRIGHT 1984 BY D. L. METZGER ****
+0000-                  3      * ----------------------------------------------------------------------
+0000-                  4      * THIS IS AN OPERATING PROGRAM FOR A 6802 MICROCOMPUTER.
+0000-                  5      * IT PERMITS COMMANDS AND DATA TO BE INPUT VIA HEX KEYBOARD.
+0000-                  6      * DATA IS DISPLAYED IN HEX ON TWO 7-SEGMANT LEDS.
+0000-                  7      *
+0000-                  8      * PRESSING "RESET" CAUSES THE PROGRAM TO SCAN THE KEYBOARD
+0000-                  9      * FOR THE FUNCTION TO BE PERFORMED. SUBSEQUENT KEY ENTRIES
+0000-                 10      * ACCESS NEW FUNCTIONS.
+0000-                 11      *
+0000-                 12      * FCN-0  ENTER NEW CURRENT ADR & DISPLAY IT (4 KEY INPUTS,
+0000-                 13      *         THEN NEW FUNCTION).
+0000-                 14      * FCN-1  DISPLAY DATA OF CURRENT ADR ON FIRST PRESS;
+0000-                 15      *         INCREMENT CURRENT AFR ON SUBSEQUENT PRESSES.
+0000-                 16      * FCN-2  DISPLAY DATA OF CURRENT ADR ON FIRST PRESS OF "2".
+0000-                 17      *         ENTER NEW DATA & INCR CRNT ADR ON SUBSEQUENT
+0000-                 18      *         PAIRS OF KEYSTROKES. USE "RESET" TO CHANGE FCN.
+0000-                 19      * FCN-3  DISPLAY DATA OF CURNT ADR ON FIRST PRESS. DECR
+0000-                 20      *         CURNT ADR ON SUBSEQUENT PRESSES OF "3".
+0000-                 21      * FCN-4  RUN PROGRAM STARTING AT CURRENT ADDRESS.
+0000-                 22      * FCN-5  JUMP TO ADDRESS 0001.
+0000-                 23      * FCN-6  BURN EPROM FROM RAM  * PUT ADDRESSES IN RAM FIRST:
+0000-                 24      * FCN-7  DUMP EPROM TO RAM    *  RAM START -- $007A, 7B
+0000-                 25      * FCN-8  SAVE RAM ON TAPE     *  RAM END   -- $007C, 7D
+0000-                 26      * FCN-9  LOAD RAM FROM TAPE   *  EPROM START- $007E, 7F
+0000-                 27      * FCN-A  DISPLAY ACCUM A              **
+0000-                 28      * FCN-B  DISPLAY ACCUM B              **  USE AFTER
+0000-                 29      * FCN-C  DISPLAY COND-CODE REGISTER   **  SINGLE
+0000-                 30      * FCN-D  DISPLAY INDEX REGISTER       **  STEP
+0000-                 31      * FCN-E  DISPLAY PROGRAM COUNTER      **  FUNCTION
+0000-                 32      *         (ADR OF NEXT INSTRUCTION)   **
+0000-                 33      * FCN-F  EXECUTE A SINGLE INSTRUCTION IN RAM (AT CURNT ADR)
+0000-                 34      *
+0000-                 35      *
+0000-                 36      *
+0000-                 37
+0000-                 38              .CR     6800
+0000-                 39              .TF     monitor.hex,INT
+0000-                 40
+4001-                 41      CRA     .EQ     $4001   CONTROL REGISTER, PIA PORT A
+4000-                 42      PA      .EQ     $4000   PORT A, PIA: KEYBD & EPROM ADR LO
+4003-                 43      CRB     .EQ     $4003   CONTROL REGISTER, PIA PORT B
+4002-                 44      PB      .EQ     $4002   PORT B, PIA: TAPE & EPROM DATA
+2000-                 45      PRTC    .EQ     $2000   PORT C, OUTPUT LATCH TO LED DISPLAY
+A000-                 46      PRTD    .EQ     $A000   PORT D, OUTPUT TO EPROM CTRL
+007F-                 47      PCLO    .EQ     $7F     HOLD SEVEN
+007E-                 48      PCHI    .EQ     $7E      MACHINE REGISTERS
+007D-                 49      XLO     .EQ     $7D      SAVED ON STACK
+007C-                 50      XHI     .EQ     $7C      BY INTERRUPT (IRQ)
+007B-                 51      ACCA    .EQ     $7B      AND REPLACED BEFORE
+007A-                 52      ACCB    .EQ     $7A      EACH SINGLE-STEP
+0079-                 53      CCR     .EQ     $79      OPERATION
+0078-                 54      COUNT   .EQ     $78     COUNTS UP TO KEYIN VALUE
+0077-                 55      CHECK   .EQ     $77     BYFFER CHECKS 1ST KEYIN AGAINST 2ND
+0076-                 56      CLOCK   .EQ     $76     TIME-DELAY VALUE & OUTER-LOOP COUNTER
+0075-                 57      INRBUF  .EQ     $75     TIME-DELAY COUNTER INNER LOOP
+0074-                 58      BYTE    .EQ     $74     HOLDS 2 KEY INPUTS & 2 DISPLAY DIGITS
+0073-                 59      LONIB   .EQ     $73     HOLDS LOW 4 BITS OF BYTE (HI 4 = 0)
+0072-                 60      PATLO   .EQ     $72     HOLDS ADDRESS OF DESIRED
+0071-                 61      PATHI   .EQ     $71      BIT PATTERN FOR LED DISPLAY
+0070-                 62      LODIS   .EQ     $70     HOLDS 4 DIGITS FOR "DISFOR"
+006F-                 63      HIDIS   .EQ     $6F      DISPLAY ROUTINE
+006E-                 64      LOADR   .EQ     $6E     HOLDS CURRENT ADDRESSS
+006D-                 65      HIADR   .EQ     $6D      (AS ENTERED VIA KEY OR SNGLSTEP)
+006C-                 66      JUMP    .EQ     $6C     GETS JMP (7E); SNGLSTP TO HIADR,LOADR.
+006B-                 67      BKBYT   .EQ     $6B     DATA ONE ADR BEFORE SNGLSTP INSTR.
+006A-                 68      TIMER   .EQ     $6A     BREAKS DELAYS IN "DISFOR" DISPLAY INTO
+0069-                 69      LOOPS   .EQ     $69      2-MS CHUNKS TO ALLOW SCAN FOR KEYIN.
+0068-                 70      DATA    .EQ     $68     BYTE BEING SENT OR RCVD IN TAPE OR EPROM
+0067-                 71      RAM1    .EQ     $67     BUFFERS FOR DISDATA, EPROM,
+0066-                 72      RAM2    .EQ     $66      AND TAPE ROUTINES.
+0065-                 73      RAM3    .EQ     $65     BUFFER FOR BYTIN.
+0064-                 74      RAM4    .EQ     $64     BUFFERS HOLD XLO AND
+0063-                 75      RAM5    .EQ     $63      XHI IN DISPLY ROUTINE
+0000-                 76
+FC00-                 77              .OR     $FC00   * FILE OF PATTERNS FOR HEX DISPLAY
+FC00-                 78              .TA     $1C00   *  ON 7-SEG LEDS STARTS AT $FC00.
+FC00-80 F2 48 60 
+     32 24 04 F0 
+     00 30 10 06 
+     8C 42 0C 1C      79              .HS     80.F2.48.60.32.24.04.F0.00.30.10.06.8C.42.0C.1C
+FC10-                 80
+FC20-                 81              .OR     $FC20   * SUBROUTINES & PROGM START AT $FC20.
+FC20-                 82              .TA     $1C20
+FC20-                 83
+FC20-                 84      * ---------------------------------------------------------
+FC20-                 85      * SUB TO LOOK FOR KEY PRESS. C FLAG CLEARED IF KEY SENSED.
+FC20-                 86      * ROWS 1 - 4 ARE PULLED LOW IN SECCESSION WHILE COLUMNS 1 -
+FC20-                 87      * 4 ARE SCANNED. LEAVES KEY VALUE IN RAM LOCATION "COUNT".
+FC20-                 88      *
+FC20-36               89 ( 4) KEY     PSHA
+FC21-37               90 ( 4)         PSHB
+FC22-7F 40 01         91 ( 6)         CLR     CRA     GET DATA-DIR REGISTER
+FC25-86 F0            92 ( 2)         LDAA    #$F0    BITS 4 - 7 ARE OUTPUTS
+FC27-B7 40 00         93 ( 5)         STAA    PA      BITS 0 - 3 INPUTS VIA PORT A
+FC2A-86 04            94 ( 2)         LDAA    #$04
+FC2C-B7 40 01         95 ( 5)         STAA    CRA
+FC2F-7F 00 78         96 ( 6)         CLR     COUNT   START WITH 0
+FC32-86 EF            97 ( 2)         LDAA    #$EF    ESTABLISH 1-BIT-LOW PATTERN
+FC34-16               98 ( 2)         TAB              AND SAVE.
+FC35-B7 40 00         99 ( 5) PULLOW  STAA    PA      OUTPUT 1-BIT-LOW (PORT A, 4 - 7).
+FC38-B6 40 00        100 ( 4)         LDAA    PA      LOOK FOR A LOW COLUMNS
+FC3B-8A F0           101 ( 2)         ORAA    #$F0     (BITS 0 - 3)
+FC3D-81 FF           102 ( 2)         CMPA    #$FF    IF ALL HIGH, NEXT ROW;
+FC3F-26 14           103 ( 4)         BNE     PRESSD  IF NOT, ONE IS PRESSED
+FC41-7C 00 78        104 ( 6)         INC     COUNT
+FC44-7C 00 78        105 ( 6)         INC     COUNT   ADD 4 TO COUNT
+FC47-7C 00 78        106 ( 6)         INC     COUNT    IN GOING TO NEXT ROW.
+FC4A-7C 00 78        107 ( 6)         INC     COUNT
+FC4D-59              108 ( 2)         ROLB            PUT 0 IN NEXT HIGHER ROW
+FC4E-17              109 ( 2)         TBA              AND TRANSFER TO OUTPUT ACCUM.
+FC4F-25 E4           110 ( 4)         BCS     PULLOW  IF WASN'T LAST ROW, DO NEXT ROW.
+FC51-0D              111 ( 2)         SEC             IF WAS LAST, SET CARRY TO SHOW
+FC52-33              112 ( 4) LEAVE   PULB             "NO KEY", RESTORE ACCUM A, B,
+FC53-32              113 ( 4)         PULA
+FC54-39              114 ( 5)         RTS              AND LEAVE ROUTINE.
+FC55-46              115 ( 2) PRESSD  RORA            YOU FOUND THE ROW,
+FC56-24 FA           116 ( 4)         BCC     LEAVE    NOW SHUFFLE THRU THE COLUMNS
+FC58-7C 00 78        117 ( 6)         INC     COUNT    UNTIL THE LOW FALLS INTO
+FC5B-7E FC 55        118 ( 3)         JMP     PRESSD   THE CARRY BIT.
+FC5E-                119
+FC5E-                120      * ---------------------------------------------------------
+FC5E-                121      * SUBROUTINE TO CHECK & DEBOUNCE KEY, RETURNS $0X IN COUNT
+FC5E-                122      * CLEARS C IF VALID KEY INPUT; SETS C IF NOT. TAKES 25 MS
+FC5E-                123      * MIN IF KEY IN; ABOUT 200 US IF NO KEY.
+FC5E-                124      *
+FC5E-36              125 ( 4) KEYIN   PSHA
+FC5F-86 FF           126 ( 2) READ    LDAA    #$FF    INIT WITH AN IMPOSSIBLE CHECK.
+FC61-97 77           127 ( 4)         STAA    CHECK
+FC63-BD FC 20        128 ( 9)         JSR     KEY     VALID KEY INPUT LEAVES C CLEAR.
+FC66-25 14           129 ( 4)         BCS     QUIT
+FC68-96 78           130 ( 3)         LDAA    COUNT
+FC6A-97 77           131 ( 4)         STAA    CHECK
+FC6C-86 26           132 ( 2)         LDAA    #$26    APPROX 25 MS DELAY
+FC6E-97 76           133 ( 4)         STAA    CLOCK
+FC70-BD FC 8B        134 ( 9)         JSR     DELAY    FOR DEBOUNCE.
+FC73-BD FC 20        135 ( 9)         JSR     KEY     GET SECOND INPUT.
+FC76-96 78           136 ( 3)         LDAA    COUNT   COMPARE 2 INPUTS 25 MS APART
+FC78-91 77           137 ( 3)         CMPA    CHECK   IF NOT SAME, IGNORE INPUT
+FC7A-26 E3           138 ( 4)         BNE     READ     AND TRY INPUT AGAIN.
+FC7C-32              139 ( 4) QUIT    PULA
+FC7D-39              140 ( 5)         RTS
+FC7E-                141
+FC7E-                142      * ---------------------------------------------------------
+FC7E-                143      * SUBROUTINE TO WAIT UNTIL KEY IS RELEASED.
+FC7E-                144      *
+FC7E-BD FC 20        145 ( 9) KEYUP   JSR     KEY     IF KEY STILL DOWN, WAIT IN
+FC81-24 FB           146 ( 4)         BCC     KEYUP    LOOP UNTIL IT'S UP.
+FC83-0C              147 ( 2)         CLC             CLEAR C MEANS VALID KEY.
+FC84-36              148 ( 4)         PSHA
+FC85-96 77           149 ( 3)         LDAA    CHECK   RESTORE PROPER VALUE TO
+FC87-97 78           150 ( 4)         STAA    COUNT    "COUNT" VIA "CHECK"
+FC89-32              151 ( 4)         PULA
+FC8A-39              152 ( 5)         RTS             CARRY SET, NO KEY IN.
+FC8B-                153
+FC8B-                154      * ---------------------------------------------------------
+FC8B-                155      * SUBROUTINE FOR UNIVERSAL TIME DELAYS VIA VALUE IN "CLOCK".
+FC8B-                156      * DELAY = (C * C * 18) + (C * 14) + (16) MICROSECONDS.
+FC8B-                157      * MAX DELAY = 1.2 SEC ON 1-MHZ CLOCK.
+FC8B-                158      *
+FC8B-37              159 ( 4) DELAY   PSHB
+FC8C-D6 76           160 ( 3)         LDAB    CLOCK   OUTER AND INNER LOOPS EACH
+FC8E-D7 75           161 ( 4) OTRLOP  STAB    INRBUF   DECREMENT "CLOCK" TIMES.
+FC90-01              162 ( 2) INRLOP  NOP
+FC91-01              163 ( 2)         NOP             NO-OPERATION JUST
+FC92-01              164 ( 2)         NOP              TO BURN TIME.
+FC93-01              165 ( 2)         NOP
+FC94-7A 00 75        166 ( 6)         DEC     INRBUF
+FC97-26 F7           167 ( 4)         BNE     INRLOP  LEAVE INNER LOOP WHEN INRBUF = 0
+FC99-7A 00 76        168 ( 6)         DEC     CLOCK
+FC9C-26 F0           169 ( 4)         BNE     OTRLOP  LEAVE OUTER LOOP WHEN CLOCK = 0
+FC9E-33              170 ( 4)         PULB
+FC9F-39              171 ( 5)         RTS
+FCA0-                172
+FCA0-                173      * ---------------------------------------------------------
+FCA0-                174      * SUBROUTINE TO PUT 2 KEYSTROKES INTO RAM LOCATION "BYTE"
+FCA0-                175      *  ROUTINE HANGS UP AND WAITS FOR 2 VALID KEY INPUTS.
+FCA0-                176      *  USES KEYIN SUB WHICH USES KEY SUB (10 BYTES STACKED).
+FCA0-                177      *
+FCA0-36              178 ( 4) BYTIN   PSHA
+FCA1-BD FC 5E        179 ( 9) HANGUP  JSR     KEYIN   GET FIRST NIBBLE
+FCA4-25 FB           180 ( 4)         BCS     HANGUP  WAIT FOR VALID KEY INPUT
+FCA6-BD FC 7E        181 ( 9)         JSR     KEYUP   WAIT FOR KEY TO BE RELEASED
+FCA9-78 00 78        182 ( 6)         ASL     COUNT   SHIFT 1ST DIGIT TO HI 4 BITS
+FCAC-78 00 78        183 ( 6)         ASL     COUNT
+FCAF-78 00 78        184 ( 6)         ASL     COUNT
+FCB2-78 00 78        185 ( 6)         ASL     COUNT   LOW 4 BITS FILL WITH 0000
+FCB5-96 78           186 ( 3)         LDAA    COUNT
+FCB7-97 65           187 ( 4)         STAA    RAM3    SAVE IN "RAM3"
+FCB9-96 6E           188 ( 3)         LDAA    LOADR   DISPLAY LOW DIGIT OF
+FCBB-97 74           189 ( 4)         STAA    BYTE     CURRENT ADDRESS AFTER
+FCBD-BD FC D0        190 ( 9)         JSR     DISPLY   FIRST KEYSTROKE.
+FCC0-BD FC 5E        191 ( 9) SECND   JSR     KEYIN   GET 2ND NIBBLE
+FCC3-25 FB           192 ( 4)         BCS     SECND   WAIT FOR KEY
+FCC5-BD FC 7E        193 ( 9)         JSR     KEYUP   WAIT FOR KEY RELEASE.
+FCC8-96 78           194 ( 3)         LDAA    COUNT   ADD INTO LOW 4 BITS
+FCCA-9B 65           195 ( 3)         ADDA    RAM3     SAVED IN "RAM3"
+FCCC-97 74           196 ( 4)         STAA    BYTE     STORE 8 BITS IN "BYTE".
+FCCE-32              197 ( 4)         PULA
+FCCF-39              198 ( 5)         RTS
+FCD0-                199
+FCD0-                200      * ---------------------------------------------------------
+FCD0-                201      * SUBROUTINE TO DISPLAY THE 2 DIGITS FROM RAM "BYTE" ON LEDS
+FCD0-                202      *  TAKES 6 MS (3 MS ON EACH LED). USES BIT-PATTERN FILE.
+FCD0-                203      *
+FCD0-36              204 ( 4) DISPLY  PSHA
+FCD1-DF 63           205 ( 5)         STX     RAM5
+FCD3-86 FC           206 ( 2)         LDAA    #$FC    BASE ADR OF FILE $FC00
+FCD5-97 71           207 ( 4)         STAA    PATHI
+FCD7-96 74           208 ( 3)         LDAA    BYTE    GET LOW 4 BITS OF BYTE IN RAM LONIB
+FCD9-84 0F           209 ( 2)         ANDA    #$0F
+FCDB-97 73           210 ( 4)         STAA    LONIB
+FCDD-96 74           211 ( 3)         LDAA    BYTE    GET HI 4 BITS OF BYTE IN
+FCDF-44              212 ( 2)         LSRA             LOW 4 BITS OF RAM "PATLO"
+FCE0-44              213 ( 2)         LSRA
+FCE1-44              214 ( 2)         LSRA
+FCE2-44              215 ( 2)         LSRA            LEFT 4 BITS FILL IN WITH 0000
+FCE3-97 72           216 ( 4)         STAA    PATLO   GET BIT PATTERN FOR HI DIGIT
+FCE5-DE 71           217 ( 4)         LDX     PATHI    FROM FILE VIA X. (BIT 0 = 0 TO LITE
+FCE7-A6 00           218 ( 5)         LDAA    00,X     HI LED)
+FCE9-B7 20 00        219 ( 5)         STAA    PRTC    OUTPUT HI DIGIT PATTERN TO PORT CARRY
+FCEC-86 0C           220 ( 2)         LDAA    #$0C
+FCEE-97 76           221 ( 4)         STAA    CLOCK
+FCF0-BD FC 8B        222 ( 9)         JSR     DELAY   DELAY FOR APPROX 3 MS:
+FCF3-96 73           223 ( 3)         LDAA    LONIB   PICK UP LOW-DIGIT NUMBER
+FCF5-97 72           224 ( 4)         STAA    PATLO
+FCF7-DE 71           225 ( 4)         LDX     PATHI   GET BIT PATTERN FOR LOW DIGIT FROM
+FCF9-A6 00           226 ( 5)         LDAA    00,X     FILE VIA X REGISTER AND OUTPUT
+FCFB-4C              227 ( 2)         INCA             TO PORT C.
+FCFC-B7 20 00        228 ( 5)         STAA    PRTC     (INC MAKES BIT 0 = 1 TO LITE LO LED)
+FCFF-86 0C           229 ( 2)         LDAA    #$0C
+FD01-97 76           230 ( 4)         STAA    CLOCK
+FD03-BD FC 8B        231 ( 9)         JSR     DELAY   DELAY FOR APPROX 3 MS
+FD06-DE 63           232 ( 4)         LDX     RAM5
+FD08-32              233 ( 4)         PULA
+FD09-39              234 ( 5)         RTS
+FD0A-                235
+FD0A-                236      * ---------------------------------------------------------
+FD0A-                237      * SUBROUTINE TO DISPLAY 2 DIGITS FROM CURNT ADR UNTIL KEYIN.
+FD0A-                238      *
+FD0A-DF 66           239 ( 5) DISDTA  STX     RAM2
+FD0C-36              240 ( 4)         PSHA
+FD0D-DE 6D           241 ( 4)         LDX     HIADR   PUT CONTENTS OF CURRENT ADR IN BYTE
+FD0F-A6 00           242 ( 5)         LDAA    00,X
+FD11-97 74           243 ( 4)         STAA    BYTE
+FD13-BD FC D0        244 ( 9) STAY    JSR     DISPLY  DISPLAY AND LOOK FOR KEY INPUT
+FD16-BD FC 5E        245 ( 9)         JSR     KEYIN    (3 LEVELS OF SUBRTN NESTING; 10 BYTES)
+FD19-25 F8           246 ( 4)         BCS     STAY    EXIT SUB WHEN KEY INPUT SENSED
+FD1B-DE 66           247 ( 4)         LDX     RAM2
+FD1D-32              248 ( 4)         PULA
+FD1E-39              249 ( 5)         RTS
+FD1F-                250
+FD1F-                251      * ---------------------------------------------------------
+FD1F-                252      * SUBROUTINE TO DISPLAY 4 DIGITS - HI, LO, BLANK - 1 SEC EACH
+FD1F-                253      *  LOOK FOR KEY INPUT EVERY 5 MS OR SO.
+FD1F-                254      *
+FD1F-36              255 ( 4) DISFOR  PSHA
+FD20-96 6F           256 ( 3) AGAIN   LDAA    HIDIS   PUT HIDISPLAY BUFFER IN BYTE
+FD22-97 74           257 ( 4)         STAA    BYTE
+FD24-86 A0           258 ( 2)         LDAA    #$A0    DISPLAY 2 HI DIGITS 160 TIMES
+FD26-97 69           259 ( 4)         STAA    LOOPS
+FD28-BD FC D0        260 ( 9) HITWO   JSR     DISPLY   @ 6 MS EA, OR 1 SEC.
+FD2B-BD FC 5E        261 ( 9)         JSR     KEYIN   CHECK FOR KEY INPUT,
+FD2E-24 33           262 ( 4)         BCC     EXIT     LEAVE DISPLAY IF FOUND
+FD30-7A 00 69        263 ( 6)         DEC     LOOPS
+FD33-26 F3           264 ( 4)         BNE     HITWO
+FD35-96 70           265 ( 3)         LDAA    LODIS
+FD37-97 74           266 ( 4)         STAA    BYTE    THEN DISPLAY LOW 2 DIGITS
+FD39-86 A0           267 ( 2)         LDAA    #$A0
+FD3B-97 69           268 ( 4)         STAA    LOOPS
+FD3D-BD FC D0        269 ( 9) LOTWO   JSR     DISPLY   FOR ABOUT 1 SEC
+FD40-BD FC 5E        270 ( 9)         JSR     KEYIN
+FD43-24 1E           271 ( 4)         BCC     EXIT
+FD45-7A 00 69        272 ( 6)         DEC     LOOPS
+FD48-26 F3           273 ( 4)         BNE     LOTWO
+FD4A-86 FF           274 ( 2)         LDAA    #$FF    BLANK DISPLAY FOR ABOUT 0.5 SEC
+FD4C-B7 20 00        275 ( 5)         STAA    PRTC     BY PULLING ALL PORT C LINES HI.
+FD4F-BD FC 5E        276 ( 9) LOOK    JSR     KEYIN   CHECKING FOR KEY INPUT
+FD52-24 0F           277 ( 4)         BCC     EXIT
+FD54-86 0A           278 ( 2)         LDAA    #$0A     EVERY 2 MS
+FD56-97 76           279 ( 4)         STAA    CLOCK
+FD58-BD FC 8B        280 ( 9)         JSR     DELAY
+FD5B-7C 00 6A        281 ( 6)         INC     TIMER    256 TIMES.
+FD5E-26 EF           282 ( 4)         BNE     LOOK    EXIT SUB WHEN KEY INPUT IS SENSED.
+FD60-7E FD 20        283 ( 3)         JMP     AGAIN
+FD63-32              284 ( 4) EXIT    PULA
+FD64-39              285 ( 5)         RTS
+FD65-                286
+FD65-                287      * ---------------------------------------------------------
+FD65-                288      *
+FD65-                289      * END SUBROUTINES      *****     START MAIN PROGRAM
+FD65-                290      *
+FD65-                291      * ---------------------------------------------------------
+FD65-                292      *  INITIALIZE STACK, EPROM: DISPLAY CURRENT ADR.    (RESET)
+FD65-                293      *
+FD65-8E 00 62        294 ( 3) START   LDS     #$0062  INIT STACK.
+FD68-7F A0 00        295 ( 6)         CLR     PRTD    DISABLE EPROM IF CONNECTED.
+FD6B-DE 6D           296 ( 4) DISADR  LDX     HIADR   TRANSFER 2 ADR BYTES TO DISPLAY
+FD6D-DF 6F           297 ( 5)         STX     HIDIS    BUFFERS AND DISPLAY 4 DIGITS.
+FD6F-BD FD 1F        298 ( 9)         JSR     DISFOR
+FD72-                299
+FD72-                300      * ---------------------------------------------------------
+FD72-                301      * ENTER CURNT ADR (4 DIGITS, THEN NEXT FUNCTION)    (FCN-0)
+FD72-                302      *
+FD72-BD FC 7E        303 ( 9) FUNCN   JSR     KEYUP   WAIT UNTIL KEY UP; DETERMINE FUNCTION.
+FD75-96 78           304 ( 3)         LDAA    COUNT   IF COUNT = 0,
+FD77-26 11           305 ( 4)         BNE     ONE      (IF NOT, TRY FCN 01)
+FD79-BD FC A0        306 ( 9) INADR   JSR     BYTIN
+FD7C-96 74           307 ( 3)         LDAA    BYTE    PUT 2 DIGITS IN HIADR,
+FD7E-97 6D           308 ( 4)         STAA    HIADR
+FD80-BD FC A0        309 ( 9)         JSR     BYTIN
+FD83-96 74           310 ( 3)         LDAA    BYTE    2 DIGITS IN LOADR
+FD85-97 6E           311 ( 4)         STAA    LOADR   VIA "BYTE" AND DISPLAY
+FD87-7E FD 6B        312 ( 3)         JMP     DISADR  NEW ADR.
+FD8A-                313
+FD8A-                314      * ---------------------------------------------------------
+FD8A-                315      * DISPLAY CURRENT-ADR DATA & INCR ADR WITH KEY = 1  (FCN-1)
+FD8A-                316      *
+FD8A-81 01           317 ( 2) ONE     CMPA    #01     IF KEY RETURNS COUNT OF 1
+FD8C-26 14           318 ( 4)         BNE     TWO      DISPLAY DATA OF CURRENT ADR
+FD8E-BD FD 0A        319 ( 9) DISNXT  JSR     DISDTA   LOOKING FOR KEYIN EVERY FEW MS.
+FD91-96 78           320 ( 3)         LDAA    COUNT   IF KEY NOT = 1
+FD93-81 01           321 ( 2)         CMPA    #01      DETERMINE NEW FUNCTION
+FD95-26 DB           322 ( 4)         BNE     FUNCN
+FD97-BD FC 7E        323 ( 9)         JSR     KEYUP   IF KEY = 1, WAIT FOR KEYUP.
+FD9A-DE 6D           324 ( 4)         LDX     HIADR
+FD9C-08              325 ( 4)         INX             INCR ADR VIA X REGISTER
+FD9D-DF 6D           326 ( 5)         STX     HIADR
+FD9F-7E FD 8E        327 ( 3)         JMP     DISNXT   AND DISPLAY NEW DATA
+FDA2-                328
+FDA2-                329      * ---------------------------------------------------------
+FDA2-                330      * DISPLAY DATA OF CURRENT ADR. INPUT PAIRS OF DIGITS AND
+FDA2-                331      *  INCR CURNT ADR FOR EVERY 2 KEYSTROKES. DISPLAY LOWES
+FDA2-                332      *  ADR DIGIT AFTER FIRST KEY INPUT.                 (FCN-2)
+FDA2-                333      *
+FDA2-81 02           334 ( 2) TWO     CMPA    #02     IF KEY RETURNS FUNCTION 2
+FDA4-26 12           335 ( 4)         BNE     THREE
+FDA6-BD FD 0A        336 ( 9) INDTA   JSR     DISDTA  DISPLAY DATA (6 MS) UNTIL KEY IN
+FDA9-BD FC A0        337 ( 9)         JSR     BYTIN   GET 2 DIGITS IN "BYTE"
+FDAC-96 74           338 ( 3)         LDAA    BYTE     (PICK UP INPUT BYTE;
+FDAE-DE 6D           339 ( 4)         LDX     HIADR    PICK UP CURRENT ADR;
+FDB0-A7 00           340 ( 6)         STAA    00,X     STORE BYTE IN ADR.)
+FDB2-08              341 ( 4)         INX             INCR TO NEXT ADDRESS.
+FDB3-DF 6D           342 ( 5)         STX     HIADR
+FDB5-7E FD A6        343 ( 3)         JMP     INDTA   DISPLAY DATA AT [HIADR,LOADR]
+FDB8-                344
+FDB8-                345      * ---------------------------------------------------------
+FDB8-                346      * DISPLAY DATA OF CURNT ADR; DECR ADR WITH KEY = 3   (FCN-3)
+FDB8-                347      *
+FDB8-81 03           348 ( 2) THREE   CMPA    #03     IF KEY RETURNS 03
+FDBA-26 14           349 ( 4)         BNE     FOUR
+FDBC-BD FD 0A        350 ( 9) DISBAK  JSR     DISDTA  DISPLAY DATA AT CURRENT ADR
+FDBF-96 78           351 ( 3)         LDAA    COUNT    WHILE CHECKING FOR KEY. IF KEY
+FDC1-81 03           352 ( 2)         CMPA    #03      NOT = 3, DETERMINE NEW FUNCTION.
+FDC3-26 AD           353 ( 4)         BNE     FUNCN
+FDC5-BD FC 7E        354 ( 9)         JSR     KEYUP   IF KEY = 3, WAIT FOR KEYUP.
+FDC8-DE 6D           355 ( 4)         LDX     HIADR
+FDCA-09              356 ( 4)         DEX             DECREMENT ADR ON KEY INPUT = 3
+FDCB-DF 6D           357 ( 5)         STX     HIADR
+FDCD-7E FD BC        358 ( 3)         JMP     DISBAK
+FDD0-                359
+FDD0-                360      * ---------------------------------------------------------
+FDD0-                361      * RUN PROGRAM STARTING AT CURRENT ADR                (FCN-4)
+FDD0-                362      *
+FDD0-81 04           363 ( 2) FOUR    CMPA    #04     IF KEY RETURNS 04
+FDD2-26 04           364 ( 4)         BNE     FIVE
+FDD4-DE 6D           365 ( 4) RUNPGM  LDX     HIADR    JUMP TO CURRENT ADR
+FDD6-6E 00           366 ( 4)         JMP     00,X     AND RUN PROGRAM.
+FDD8-                367
+FDD8-                368      * ---------------------------------------------------------
+FDD8-                369      * RUN USER PROGRAM AT ADR 0001.                      (FCN-5)
+FDD8-                370      *
+FDD8-81 05           371 ( 2) FIVE    CMPA    #05     IF KEY RETURNS 05
+FDDA-26 03           372 ( 4)         BNE     SIX      (IF NOT, TRY 06)
+FDDC-7E 00 01        373 ( 3)         JMP     01      RUN PROGRAM AT ADR 0001.
+FDDF-                374
+FDDF-                375      * ---------------------------------------------------------
+FDDF-                376      * BURN EPROM FROM RAM. STORE STARTING RAM ADR AT $7A (HI) &
+FDDF-                377      *  $7B (LO); ENDING RAM AT $7C, $7D; STARTING FROM ADR AT
+FDDF-                378      *  $7E, $7F. TAKES 50 MS / BYTE. DISPLAYS ROM LOW ADR WHILE
+FDDF-                379      *  PROGRAMMING; RAM END ADR WHEN DONE. CHECK FOR FAILURE
+FDDF-                380      *  TO PROG & DISPLAY BAD EPROM ADR IF FAILED.        (FCN-6)
+FDDF-                381      *
+FDDF-81 06           382 ( 2) SIX     CMPA    #$06    IF KEY RETURNS 06
+FDE1-26 74           383 ( 4)         BNE     SEVEN    (IF NOT, TRY 7)
+FDE3-7F 40 01        384 ( 6) BURN    CLR     CRA     ASK FOR PIA DIRECTION REGISTERS.
+FDE6-7F 40 03        385 ( 6)         CLR     CRB
+FDE9-86 FF           386 ( 2)         LDAA    #$FF
+FDEB-B7 40 00        387 ( 5)         STAA    PA
+FDEE-B7 40 02        388 ( 5)         STAA    PB      SET ALL PORTS FOR OUTPUTS.
+FDF1-86 04           389 ( 2)         LDAA    #$04
+FDF3-B7 40 01        390 ( 5)         STAA    CRA     ACCESS PORTS (NOT DIR REG) NEXT.
+FDF6-B7 40 03        391 ( 5)         STAA    CRB
+FDF9-DE 7A           392 ( 4)         LDX     $7A     PUT RAM ADR IN X.
+FDFB-E6 00           393 ( 5)         LDAB    00,X    PICK UP BYTE FROM RAM.
+FDFD-96 7F           394 ( 3)         LDAA    $7F     PICK UP LOW BYTE FROM ADR.
+FDFF-B7 40 00        395 ( 5)         STAA    PA       AND OUTPUT VIA PORT A.
+FE02-96 7E           396 ( 3)         LDAA    $7E     PICK UP HI BYTE ADR AND
+FE04-97 67           397 ( 4)         STAA    RAM1     SAVE IN RAM FOR LATER.
+FE06-8A 10           398 ( 2)         ORAA    #$10     BIT 4 HI DISABLES EPROM OUTPUT.
+FE08-B7 A0 00        399 ( 5)         STAA    PRTD    OUTPUT ROM HI 3 BIT ADR.
+FE0B-F7 40 02        400 ( 5)         STAB    PB      OUTPUT DATA BYTE TO ROM.
+FE0E-D7 68           401 ( 4)         STAB    DATA     (SAVE IN RAM FOR LATER)
+FE10-8A 18           402 ( 2)         ORAA    #$18    BRING PROG PULSE (PIN 18)
+FE12-B7 A0 00        403 ( 5)         STAA    PRTD     & OE (PIN 20) BITS HIGH.
+FE15-96 7F           404 ( 3)         LDAA    $7F     SET DISPLAY LOW
+FE17-97 74           405 ( 4)         STAA    BYTE     ROM ADR.
+FE19-C6 08           406 ( 2)         LDAB    #$08    EIGHT LOOPS
+FE1B-D7 69           407 ( 4)         STAB    LOOPS
+FE1D-BD FC D0        408 ( 9) PROM    JSR     DISPLY   (8 DISPLYS AT 6 MS EACH
+FE20-7A 00 69        409 ( 6)         DEC     LOOPS     = 48 MS BURN TIME)
+FE23-26 F8           410 ( 4)         BNE     PROM
+FE25-96 67           411 ( 3)         LDAA    RAM1    RETRIEVE HI ADR WITH BITS 3 & 4
+FE27-B7 A0 00        412 ( 5)         STAA    PRTD     LO TO TURN OFF PROG PULSE & VERFY.
+FE2A-DE 7E           413 ( 4)         LDX     $7E     HOLD EPROM ADR IN X REGISTER.
+FE2C-7F 40 03        414 ( 6)         CLR     CRB     ASK FOR DIRECTION REG B.
+FE2F-7F 40 02        415 ( 6)         CLR     PB      SET ALL INPUTS.
+FE32-86 04           416 ( 2)         LDAA    #04     ASK FOR PORT B.
+FE34-B7 40 03        417 ( 5)         STAA    CRB
+FE37-B6 40 02        418 ( 4)         LDAA    PB      GET DATA FROM EPROM.
+FE3A-91 68           419 ( 3)         CMPA    DATA    SAME AS PROGRAMMED?
+FE3C-27 05           420 ( 4)         BEQ     NEXT    YES? CONTINUE.
+FE3E-DF 6D           421 ( 5)         STX     HIADR   NO? THEN DISPLAY EPROM ADR
+FE40-7E FD 6B        422 ( 3)         JMP     DISADR   AT WHICH FAILURE OCCURRED.
+FE43-08              423 ( 4) NEXT    INX             MOVE TO NEXT EPROM ADR
+FE44-DF 7E           424 ( 5)         STX     $7E      AND SAVE IN RAM.
+FE46-DE 7A           425 ( 4)         LDX     $7A     IF CURRENT RAN ADR EQUAL
+FE48-9C 7C           426 ( 4)         CPX     $7C      TO END RAM ADR
+FE4A-27 06           427 ( 4)         BEQ     BURNED   YOU'RE DONE.
+FE4C-08              428 ( 4)         INX             IF NOT, MOVE TO NEXT RAM ADR
+FE4D-DF 7A           429 ( 5)         STX     $7A      AND SAVE.
+FE4F-7E FD E3        430 ( 3)         JMP     BURN    NEXT BYTE.
+FE52-DF 6D           431 ( 5) BURNED  STX     HIADR   IF EQUAL DISPLAY RAM END ADR
+FE54-7E FD 6B        432 ( 3)         JMP     DISADR   AND WAIT FOR ADR (FCN 0).
+FE57-                433
+FE57-                434      * ---------------------------------------------------------
+FE57-                435      * DUMP EPROM TO RAM. RAM START ADR AT $007A (HI) & 7B (LO).
+FE57-                436      *  RAM END ADR AT 7C, 7D. ROM START AT 7E, 7F.       (FCN-7)
+FE57-                437      *
+FE57-81 07           438 ( 2) SEVEN   CMPA    #$07    IF KEY RETURNS 07
+FE59-26 3D           439 ( 4)         BNE     EIGHT    (IF NOT, TRY 8)
+FE5B-7F 40 01        440 ( 6)         CLR     CRA     ASK FOR DIRECTION REGISTERS.
+FE5E-7F 40 03        441 ( 6)         CLR     CRB
+FE61-86 FF           442 ( 2)         LDAA    #$FF    SET PORT A FOR OUTPUTS
+FE63-B7 40 00        443 ( 5)         STAA    PA       (LO ADR LINES OF EPROM)
+FE66-7F 40 02        444 ( 6)         CLR     PB      PORT B FOR INPUTS (DATA)
+FE69-86 04           445 ( 2)         LDAA    #$04
+FE6B-B7 40 01        446 ( 5)         STAA    CRA     ACCESS NEXT TIME.
+FE6E-B7 40 03        447 ( 5)         STAA    CRB
+FE71-96 7E           448 ( 3) LOAD    LDAA    $7E     GET ROM HI ADR,
+FE73-84 07           449 ( 2)         ANDA    #$07    MASK OFF ALL BUT LO 3 BITS.
+FE75-B7 A0 00        450 ( 5)         STAA    PRTD    OUTPUT HI ADR; OE & PROG = 0.
+FE78-96 7F           451 ( 3)         LDAA    $7F     PICK UP ROM LO ADR
+FE7A-B7 40 00        452 ( 5)         STAA    PA       AND OUTPUT.
+FE7D-DE 7E           453 ( 4)         LDX     $7E
+FE7F-08              454 ( 4)         INX             MOVE TO NEXT ROM ADR
+FE80-DF 7E           455 ( 5)         STX     $7E      AND SAVE.
+FE82-B6 40 02        456 ( 4)         LDAA    PB      GET ROM DATA AND
+FE85-DE 7A           457 ( 4)         LDX     $7A      PUT IN RAM ADR GIVEN
+FE87-A7 00           458 ( 6)         STAA    00,X     IN $7A, 7B.
+FE89-9C 7C           459 ( 4)         CPX     $7C     IS THIS LAST RAM ADR?
+FE8B-27 06           460 ( 4)         BEQ     LOADED   YES? THE DONE.
+FE8D-08              461 ( 4)         INX              NO? THEN MOVE TO
+FE8E-DF 7A           462 ( 5)         STX     $7A       NEXT RAM ADR AND
+FE90-7E FE 71        463 ( 3)         JMP     LOAD      DO NEXT BYTE.
+FE93-DF 6D           464 ( 5) LOADED  STX     HIADR   DISPLAY ENDING RAM ARD
+FE95-7E FD 6B        465 ( 3)         JMP     DISADR   & WAIT FOR KEY (FCN 0).
+FE98-                466
+FE98-                467
+FE98-                468      * ---------------------------------------------------------
+FE98-                469      * SAVE RAM TO TAPE. STORE STARTING ADR IN RAM ADR $7A (HI) &
+FE98-                470      *  $7B (LO); ENDING ADR AT $7C (HI) & $7D (LO). TAKES 64 MS
+FE98-                471      *  PER BYTE; 16 SEC/PAGE. DISPLY END RAM WHEN DONE.  (FCN-8)
+FE98-                472      *
+FE98-81 08           473 ( 2) EIGHT   CMPA    #08     IF KEY RETURNS 08,
+FE9A-26 67           474 ( 4)         BNE     NINE
+FE9C-7F 40 03        475 ( 6) TAPE    CLR     CRB     ASK FOR PORT B DIRECTION REG.
+FE9F-C6 40           476 ( 2)         LDAB    #$40    SET BIT 6 AS OUTPUT.
+FEA1-F7 40 02        477 ( 5)         STAB    PB
+FEA4-C6 04           478 ( 2)         LDAB    #04     SET CONTROL REG TO
+FEA6-F7 40 03        479 ( 5)         STAB    CRB      ACCESS PORT B NEXT TIME.
+FEA9-DE 7A           480 ( 4)         LDX     $7A     STARTING ADR OF DUMP TO TAPE.
+FEAB-A6 00           481 ( 5) NXTBYT  LDAA    00,X    PICK UP BYTE.
+FEAD-97 68           482 ( 4)         STAA    DATA     SAVE IN "DATA".
+FEAF-B7 20 00        483 ( 5)         STAA    PRTC    FLASH PATTERN ON DISPLAY.
+FEB2-7F 00 67        484 ( 6)         CLR     RAM1
+FEB5-7C 00 67        485 ( 6) NXTBIT  INC     RAM1    COUNT OFF ONE SHIFT IN "RAM1".
+FEB8-7F 00 66        486 ( 6)         CLR     RAM2    (00 = 0 BIT; 01 = 1 BIT)
+FEBB-74 00 68        487 ( 6)         LSR     DATA    PUT BIT INTO CARRY.
+FEBE-24 03           488 ( 4)         BCC     BITOUT  IF C = 0 KEEP "RAM2" = 0
+FEC0-7C 00 66        489 ( 6)         INC     RAM2     IF C = 1, SET "RAM2" = 1.
+FEC3-                490
+FEC3-                491      * ---------------------------------------------------------
+FEC3-                492      * THIS PART OF ROUTINE OUTPUTS ONE BIT TO TAPE. 18 CYCLES OF
+FEC3-                493      * 3600-HZ FOR A 0 OR 9 CYCLES FOR A 1, IN 8-MS FIELD.
+FEC3-                494      *
+FEC3-4F              495 ( 2) BITOUT  CLRA            A COUNTS NO. OF CYCLES.
+FEC4-C6 40           496 ( 2) TONE    LDAB    #$40    PUT A HI ON PORT B, BIT 6.
+FEC6-F7 40 02        497 ( 5)         STAB    PB
+FEC9-C6 17           498 ( 2)         LDAB    #23     DELAY 23 X 6 = 138 US
+FECB-5A              499 ( 2) OUTHI   DECB             WITH OUTPUT HI.
+FECC-26 FD           500 ( 4)         BNE     OUTHI
+FECE-F7 40 02        501 ( 5)         STAB    PB      B WILL BE = 00
+FED1-C6 17           502 ( 2)         LDAB    #23     PUT LOW ON PB6 AND
+FED3-5A              503 ( 2) OUTLO   DECB             DELAY 138 US.
+FED4-26 FD           504 ( 4)         BNE     OUTLO
+FED6-4C              505 ( 2)         INCA            "A" = NO. CYCLES COMPLETED.
+FED7-81 09           506 ( 2)         CMPA    #09     9 CYCLES DONE? BORROW FLAG = 0?
+FED9-25 E9           507 ( 4)         BCS     TONE    NO; MAKE ANOTHER.
+FEDB-7D 00 66        508 ( 6)         TST     RAM2    YES; STOP TONE
+FEDE-26 09           509 ( 4)         BNE     HIBIT    IF BIT 0 = 1.
+FEE0-81 12           510 ( 2)         CMPA    #18     IF BIT = 0, FINISH
+FEE2-26 E0           511 ( 4)         BNE     TONE     18 CYCLES, THEN
+FEE4-C6 0B           512 ( 2)         LDAB    #11      STOP TONE FOR 2.37 MS,
+FEE6-7E FE EB        513 ( 3)         JMP     QUIET    AND GET NEXT BIT.
+FEE9-C6 10           514 ( 2) HIBIT   LDAB    #16     IF BIT = 1, STOP TONE
+FEEB-D7 76           515 ( 4) QUIET   STAB    CLOCK
+FEED-BD FC 8B        516 ( 9)         JSR     DELAY    FOR 4.97 MS.
+FEF0-96 67           517 ( 3)         LDAA    RAM1    HOW MANY BITS SENT?
+FEF2-81 08           518 ( 2)         CMPA    #08      ALL 8?
+FEF4-26 BF           519 ( 4)         BNE     NXTBIT  NO; SEND NEXT BIT.
+FEF6-9C 7C           520 ( 4)         CPX     $7C     YES; THEN IS THIS
+FEF8-27 04           521 ( 4)         BEQ     FINSHD   THE LAST DATA BYTE?
+FEFA-08              522 ( 4)         INX             NO; MOVE TO NEXT ADR.
+FEFB-7E FE AB        523 ( 3)         JMP     NXTBYT
+FEFE-DF 6D           524 ( 5) FINSHD  STX     HIADR   YES; DISPLAY END ADR
+FF00-7E FD 6B        525 ( 3)         JMP     DISADR   AND WAIT FOR KEYIN.
+FF03-                526
+FF03-                527      * ---------------------------------------------------------
+FF03-                528      * LOAD RAM FROM TAPE. STORE STARTING RAM ADR AT $7A (HI) &
+FF03-                529      *  7B (LO); ENDING ADR AT $7C, 7D. TAKES 64 MS/BYTE. (FCN-9)
+FF03-                530      *
+FF03-81 09           531 ( 2) NINE    CMPA    #$09    IF KEY RETURNS 09
+FF05-26 51           532 ( 4)         BNE     ADISP    (ELSE CHECK KEYS A - F)
+FF07-7F 40 03        533 ( 6)         CLR     CRB     ASK FOR PORT B DIRECTION REGISTER.
+FF0A-7F 40 02        534 ( 6)         CLR     PB      SET PORT B FOR ALL INPUTS.
+FF0D-86 04           535 ( 2)         LDAA    #$04    SET CTRL REG TO ACCESS
+FF0F-B7 40 03        536 ( 5)         STAA    CRB      PORT B NEXT TIME.
+FF12-DE 7A           537 ( 4)         LDX     $7A     STARTING ADR AT $7A.
+FF14-7F 00 67        538 ( 6) RDBYT   CLR     RAM1    NO BITS SHIFTED IN YET;
+FF17-7F 00 68        539 ( 6)         CLR     DATA     DATA BYTE = 0 TO START.
+FF1A-B6 40 02        540 ( 4) RDBIT   LDAA    PB      READ BIT AT PORT B, BIT 7
+FF1D-84 80           541 ( 2)         ANDA    #$80    MASK OFF ALL BUT BIT 7.
+FF1F-26 F9           542 ( 4)         BNE     RDBIT   WAIT FOR LOW LEVELS
+FF21-B6 40 02        543 ( 4) LOTOHI  LDAA    PB      THEN WAIT FOR LOW-TO-HI
+FF24-84 80           544 ( 2)         ANDA    #$80     TRANSITION,
+FF26-27 F9           545 ( 4)         BEQ     LOTOHI
+FF28-C6 0F           546 ( 2)         LDAB    #15      AND DELAY FOR 4.5 MS.
+FF2A-D7 76           547 ( 4)         STAB    CLOCK
+FF2C-BD FC 8B        548 ( 9)         JSR     DELAY
+FF2F-B6 40 02        549 ( 4)         LDAA    PB      READ INPUT BIT.
+FF32-84 80           550 ( 2)         ANDA    #$80
+FF34-0D              551 ( 2)         SEC             IF BIT IN = 0
+FF35-27 01           552 ( 4)         BEQ     HIORLO   LEAVE C = 1;
+FF37-0C              553 ( 2)         CLC              ELSE SET C = 0.
+FF38-76 00 68        554 ( 6) HIORLO  ROR     DATA    SHIFT CARRY BIT INTO
+FF3B-7C 00 67        555 ( 6)         INC     RAM1     DATA AND COUNT OFF
+FF3E-96 67           556 ( 3)         LDAA    RAM1     A SHIFT.
+FF40-81 08           557 ( 2)         CMPA    #08     8 BITS SHIFTED IN YET?
+FF42-26 D6           558 ( 4)         BNE     RDBIT    NO? READ NEXT BIT.
+FF44-96 68           559 ( 3)         LDAA    DATA     YES? STORE 8 BITS IN
+FF46-A7 00           560 ( 6)         STAA    00,X      RAM AT ADR X.
+FF48-B7 20 00        561 ( 5)         STAA    PRTC    FLASH PATTERN ON DISPLAY.
+FF4B-9C 7C           562 ( 4)         CPX     $7C     LAST ADDRESS?
+FF4D-27 04           563 ( 4)         BEQ     LAST     YES...
+FF4F-08              564 ( 4)         INX              NO? GO TO NEXT ADR
+FF50-7E FF 14        565 ( 3)         JMP     RDBYT     FOR NEXT BYTE.
+FF53-DF 6D           566 ( 5) LAST    STX     HIADR    ELSE DISPLAY LAST ADR
+FF55-7E FD 6B        567 ( 3)         JMP     DISADR    AND WAIT FOR KEYIN
+FF58-                568
+FF58-                569      * ---------------------------------------------------------
+FF58-                570      * DISPLAY ACCUM A. USE AFTER SNGLSTP.                (FCN-A)
+FF58-                571      *
+FF58-81 0A           572 ( 2) ADISP   CMPA    #$0A    IF KEY RETURNS 0A
+FF5A-26 0F           573 ( 4)         BNE     BDISP
+FF5C-96 7B           574 ( 3)         LDAA    ACCA    PICK UP A BUFFER
+FF5E-97 74           575 ( 4)         STAA    BYTE    DISPLAY 2 DIGITS FROM ACCUM A
+FF60-BD FC D0        576 ( 9) DISBYT  JSR     DISPLY
+FF63-BD FC 5E        577 ( 9)         JSR     KEYIN   LOOK FOR KEY IN
+FF66-25 F8           578 ( 4)         BCS     DISBYT   CONTINUE DISPLAY
+FF68-7E FD 72        579 ( 3)         JMP     FUNCN    OR EVALUATE KEY FOR NEW FUNCTION.
+FF6B-                580
+FF6B-                581      * ---------------------------------------------------------
+FF6B-                582      * DISPLAY ACCUM B.                                   (FCN-B)
+FF6B-                583      *
+FF6B-81 0B           584 ( 2) BDISP   CMPA    #$0B    IF KEY RETURNS 0B
+FF6D-26 07           585 ( 4)         BNE     CCRDIS
+FF6F-96 7A           586 ( 3)         LDAA    ACCB    PICK UP B BUFFER
+FF71-97 74           587 ( 4)         STAA    BYTE
+FF73-7E FF 60        588 ( 3)         JMP     DISBYT  DISPLAY & LOOK FOR KEY AS ABOVE
+FF76-                589
+FF76-                590      * ---------------------------------------------------------
+FF76-                591      * DISPLAY CONDITION-CODE REGISTER
+FF76-                592      *
+FF76-81 0C           593 ( 2) CCRDIS  CMPA    #$0C    IF KEY RETURNS 0C            (FCN-C)
+FF78-26 07           594 ( 4)         BNE     XDISP
+FF7A-96 79           595 ( 3)         LDAA    CCR     PICK UP CCR BUFFER
+FF7C-97 74           596 ( 4)         STAA    BYTE
+FF7E-7E FF 60        597 ( 3)         JMP     DISBYT  DISPLAY & LOOK FOR KEY AS IN ADISP
+FF81-                598
+FF81-                599      * ---------------------------------------------------------
+FF81-                600      * DISPLAY X-INDEX REGISTER                           (FCN-D)
+FF81-                601      *
+FF81-81 0D           602 ( 2) XDISP   CMPA    #$0D    IF KEY RETURNS 0D
+FF83-26 0A           603 ( 4)         BNE     PCDIS   PICK UP 2 BYTES (HI & LO)
+FF85-DE 7C           604 ( 4)         LDX     XHI      OF X-INDEX BUFFER VIA X INDEX
+FF87-DF 6F           605 ( 5) DISDBL  STX     HIDIS    AND STORE IN DISPLAY BUFFERS
+FF89-BD FD 1F        606 ( 9)         JSR     DISFOR  DISPLAY FOUR DIGITS (1 SEC EA BYTE)
+FF8C-7E FD 72        607 ( 3)         JMP     FUNCN   EXIT DISFOR WHEN KEYIN.
+FF8F-                608
+FF8F-                609      * ---------------------------------------------------------
+FF8F-                610      * DISPLAY PROGRAM COUNTER (ADR OF NEXT INSTR)        (FCN-E)
+FF8F-                611      *
+FF8F-81 0E           612 ( 2) PCDIS   CMPA    #$0E    IF KEY RETURNS 0E
+FF91-26 05           613 ( 4)         BNE     ONESTP
+FF93-DE 7E           614 ( 4)         LDX     PCHI    PICK UP 2 BYTES OF PROG CTRL
+FF95-7E FF 87        615 ( 3)         JMP     DISDBL   AND DISPLAY 4 DIGITS AS ABOVE
+FF98-                616
+FF98-                617      * ---------------------------------------------------------
+FF98-                618      * EXECUTE SINGLE INSTR IN RAM STARTING AT CURNT ADR. (FCN-F)
+FF98-                619      *  1) SAVE THE BYTE PRECEEDING THE USER INSTRUCTION IN
+FF98-                620      *     "BKBYT", & INSERT A CLR-INTRUPT-MASK (0E) THERE.
+FF98-                621      *  2) JUMP TO THE "CLI" INSTRUCTION. ONE USER INSTRUCTION
+FF98-                622      *     WILL EXECUTE BEFORE THE IRQ IS RECOGNIZED. IRQ SAVES
+FF98-                623      *     ALL MACHINE REGISTERS ON STACK & VECTORS TO "RETURN".
+FF98-                624      *  3) PULL MACHINE REGISTERS OFF STACK & SAVE IN RAM BUFRS.
+FF98-                625      *  4) REPLACE "CLI" IN RAM WITH ORIGINAL BYTE FROM "BKBYT".
+FF98-                626      *  5) PUT PROG CTR IN CURRENT ADR (READY FOR NEXT STEP).
+FF98-                627      *
+FF98-81 0F           628 ( 2) ONESTP  CMPA    #$0F    IF KEY RETURNS 0F
+FF9A-27 03           629 ( 4)         BEQ     CONT     JUMP TO START FOR NEW COMMAND.
+FF9C-7E FD 65        630 ( 3)         JMP     START
+FF9F-DE 6D           631 ( 4) CONT    LDX     HIADR   PICK UP BYTE AT ADR ONE
+FFA1-09              632 ( 4)         DEX              BEFORE CURRENT USER INSTRUCTION
+FFA2-DF 6D           633 ( 5)         STX     HIADR
+FFA4-A6 00           634 ( 5)         LDAA    00,X     AND STORE IN RAM "BKBYT".
+FFA6-97 6B           635 ( 4)         STAA    BKBYT
+FFA8-86 0E           636 ( 2)         LDAA    #$0E    STORE A "CLI" COMAND AS THE INSTR
+FFAA-A7 00           637 ( 6)         STAA    00,X     PRECEEDING THE CURRENT INSTR
+FFAC-86 7E           638 ( 2)         LDAA    #$7E    SET UP A "JMP" INSTR TO VECTOR TO
+FFAE-97 6C           639 ( 4)         STAA    JUMP     "CLI" PRECEEDING USER INSTRUCTION.
+FFB0-D6 7A           640 ( 3)         LDAB    ACCB    RESTORE MACHINE REGISTERS
+FFB2-DE 7C           641 ( 4)         LDX     XHI      AS SAVED BY "IRQ" INTERRUPT.
+FFB4-96 7B           642 ( 3)         LDAA    ACCA
+FFB6-36              643 ( 4)         PSHA             (USE STACK TO RELOAD ACCUM A
+FFB7-96 79           644 ( 3)         LDAA    CCR       WITHOUT ALTERING CCR)
+FFB9-06              645 ( 2)         TAP
+FFBA-0F              646 ( 2)         SEI             ENSURE INTERRUPT MASK BIT IS HIGH.
+FFBB-32              647 ( 4)         PULA
+FFBC-7E 00 6C        648 ( 3)         JMP     $006C   JUMP TO NEXT USER INSTR VIA RAM
+FFBF-                649      *                       COMMANDS AT $6C,6D,6E (JMP HIADR)
+FFBF-                650      *
+FFBF-                651      * HERE YOU WILL DO ONE INSTR FROM RAM AND BE INTERRUPTED.
+FFBF-                652      *  INTERRUPT VECTOR LANDS YOU AT "RETURN".
+FFBF-                653      *
+FFBF-32              654 ( 4) RETURN  PULA            PLACE 7 MACHINE REGISTERS IN
+FFC0-97 79           655 ( 4)         STAA    CCR      RAM BUFFERS.
+FFC2-32              656 ( 4)         PULA
+FFC3-97 7A           657 ( 4)         STAA    ACCB
+FFC5-32              658 ( 4)         PULA
+FFC6-97 7B           659 ( 4)         STAA    ACCA
+FFC8-32              660 ( 4)         PULA
+FFC9-97 7C           661 ( 4)         STAA    XHI
+FFCB-32              662 ( 4)         PULA
+FFCC-97 7D           663 ( 4)         STAA    XLO
+FFCE-32              664 ( 4)         PULA
+FFCF-97 7E           665 ( 4)         STAA    PCHI
+FFD1-32              666 ( 4)         PULA
+FFD2-97 7F           667 ( 4)         STAA    PCLO
+FFD4-DE 6D           668 ( 4)         LDX     HIADR   RETRIEVE ADR OF "CLI" AND REPLACE
+FFD6-96 6B           669 ( 3)         LDAA    BKBYT    ORIGINAL DATA.
+FFD8-A7 00           670 ( 6)         STAA    00,X
+FFDA-DE 7E           671 ( 4)         LDX     PCHI    PUT PROGM CNTR IN CURRENT ADR
+FFDC-DF 6D           672 ( 5)         STX     HIADR    DISPLAY PROG CTR (ADR OF NEXT INSTR)
+FFDE-7E FF 87        673 ( 3)         JMP     DISDBL   AND LOOK FOR KEY IN.
+FFE1-                674
+FFE1-                675      * ---------------------------------------------------------
+FFE1-DE 61           676 ( 4) BREAK   LDX     $0061   GET ADR FOLLOWING SWI INSTR FROM
+FFE3-09              677 ( 4)         DEX              STACK; GO BACK TO ADR OF INSTR.
+FFE4-DF 61           678 ( 5)         STX     $0061   PUT RETURN ADR OF ORIG INSTR IN STACK.
+FFE6-DF 6D           679 ( 5)         STX     HIADR   ORIG INSTR FROM BKBYT GOES IN HIADR (X)
+FFE8-20 D5           680 ( 4)         BRA     RETURN   AFTER ENTERING SST MODE.
+FFEA-                681
+FFEA-                682      * ---------------------------------------------------------
+FFEA-                683      * STORE VECTORS AT END OF EPROM.
+FFF8-                684              .OR     $FFF8
+FFF8-                685              .TA     $1FF8
+FFF8-FF BF           686              .DA     RETURN  IRQ VECTOR
+FFFA-FF E1           687              .DA     BREAK   SWI VECTOR
+FFFC-00 20           688              .HS     0020    NMI VECTOR
+FFFE-FD 65           689              .DA     START   RESET VECTOR
+
+0 Errors found during assembly.
+0 Warnings found during assembly.
+

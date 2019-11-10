@@ -1,4 +1,4 @@
-update=22/09/2019 19:46:05
+update=22/09/2019 23:18:15
 version=1
 last_client=kicad
 [pcbnew]
@@ -63,3 +63,13 @@ LibName31=contrib
 LibName32=valves
 LibName33=D:/owncloud/Documents/Projects/RC6802 Microchicken/common/library/mc6850
 LibName34=oscillator
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=export/
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=Pcbnew
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60

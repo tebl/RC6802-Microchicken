@@ -2697,4 +2697,6 @@ Text Label 3800 7025 0    60   ~ 0
 ~8K4
 Text Label 3800 7125 0    60   ~ 0
 ~8K5
+Text Notes 15400 11075 0    60   ~ 0
+A
 $EndSCHEMATC
