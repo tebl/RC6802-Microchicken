@@ -22,7 +22,7 @@ Pass two
 0000-                 12      * FCN-0  ENTER NEW CURRENT ADR & DISPLAY IT (4 KEY INPUTS,
 0000-                 13      *         THEN NEW FUNCTION).
 0000-                 14      * FCN-1  DISPLAY DATA OF CURRENT ADR ON FIRST PRESS;
-0000-                 15      *         INCREMENT CURRENT AFR ON SUBSEQUENT PRESSES.
+0000-                 15      *         INCREMENT CURRENT ADR ON SUBSEQUENT PRESSES.
 0000-                 16      * FCN-2  DISPLAY DATA OF CURRENT ADR ON FIRST PRESS OF "2".
 0000-                 17      *         ENTER NEW DATA & INCR CRNT ADR ON SUBSEQUENT
 0000-                 18      *         PAIRS OF KEYSTROKES. USE "RESET" TO CHANGE FCN.

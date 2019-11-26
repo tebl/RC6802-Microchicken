@@ -1,0 +1,37 @@
+
+SB-Cross Assembler version 3.03.06
+Please visit www.sbprojects.net for a complete description.
+
+Assembling....
+
+Pass one
+Loaded 6800 overlay version 3.01.01
+
+Pass two
+0000-                  1      * ---------------------------------------------------------
+0000-                  2
+0000-                  3              .CR     6800
+0000-                  4              .TF     hello.hex,INT
+0000-                  5
+0001-                  6              .OR     $0001
+0001-                  7              .TA     $0000
+0001-                  8
+FCD0-                  9      DISPLY  .EQ     $FCD0
+FC8B-                 10      DELAY   .EQ     $FC8B
+0074-                 11      BYTE    .EQ     $74
+0076-                 12      CLOCK   .EQ     $76
+0001-                 13
+0001-86 00            14 ( 2) START   LDAA    #$00
+0003-97 74            15 ( 4)         STAA    BYTE
+0005-BD FC D0         16 ( 9) LOOP    JSR     DISPLY
+0008-96 74            17 ( 3)         LDAA    BYTE
+000A-4C               18 ( 2)         INCA
+000B-97 74            19 ( 4)         STAA    BYTE
+000D-86 F0            20 ( 2)         LDAA    #$F0
+000F-97 76            21 ( 4)         STAA    CLOCK
+0011-BD FC 8B         22 ( 9)         JSR     DELAY
+0014-7E 00 05         23 ( 3)         JMP     LOOP
+
+0 Errors found during assembly.
+0 Warnings found during assembly.
+
