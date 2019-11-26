@@ -1,9 +1,9 @@
 # RC6802 Microchicken
 
-One of my most enjoyable reads the past year has been "22 micro-computer projects - to build, learn and learn" by Daniel L. Metzger, the Microchicken-computer is described in detail within it and so I sought to build one myself. The computer has been designed as a set of smaller modules, for an overall description a listing of the available modules - see the main project [README](https://github.com/tebl/RC6802-Microchicken).
+One of my most enjoyable reads the past year has been "22 micro-computer projects - to build, learn and learn" by Daniel L. Metzger, the Microchicken-computer is described in detail within it and so I sought to build one myself. The computer has been designed as a set of smaller modules, for an overall description a listing of the available modules - see the main project [README](https://github.com/tebl/RC6802-Microchicken)!
 
 ## CPU
-The CPU module has been designed to stack with the UI-board, doing it this way the overall project stays within manageable PCB-costs and should be buildable for anyone with a reasonable set of tools. An assembled version of the CPU-module by itself as well as a version stacked underneath the User Interface module can be seen below.
+The CPU module has been designed to stack with the User Interface-module, doing it this way the overall project stays within manageable PCB-costs and should be buildable for anyone with a reasonable set of tools available. An assembled version of the CPU-module by itself as well as a version stacked underneath the User Interface module can be seen below.
 
 ![Assembled CPU Board](https://github.com/tebl/RC6802-Microchicken/raw/master/gallery/2019-11-25%2019.54.03.jpg)
 ![Stacked boards](https://github.com/tebl/RC6802-Microchicken/raw/master/gallery/2019-11-25%2020.13.31.jpg)
