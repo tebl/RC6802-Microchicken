@@ -10,6 +10,8 @@ The final projects in the book result in the Microchicken-computer, which I've a
 
 ![RC6802 Microchicken Computer](https://github.com/tebl/RC6802-Microchicken/raw/master/gallery/2019-11-25%2020.13.31.jpg)
 
+The monitor software for the RC6802 Microchicken, like the hardware design itself, is also included in the aforementioned book. I've transcribed in and slightly adapted the assembly code so that it can be assembled using modern tools, the one I've chosen to use is [SB-Assembler 3](https://www.sbprojects.net/sbasm/) as it seems to support all of the 8bit CPUs I've managed to force upon it. For a further description on the various functions of the monitor and the firmware in , see its specific [README](https://github.com/tebl/RC6802-Microchicken/tree/master/software/firmware)-file as well. 
+
 ## Modules
 As with most of my computer builds the computer have been split into two required main boards to stay under the magic 5$ cost limits over at [PCBWay](https://www.pcbway.com/setinvite.aspx?inviteid=88707) for each, a CPU board as well as a UI board sandwiched on top. There may be additional modules found among the project files, but the ones I've added here are the ones that have been considered ready.
 
