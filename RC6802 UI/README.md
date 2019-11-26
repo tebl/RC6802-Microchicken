@@ -34,7 +34,7 @@ Some vendors will have the same ICs in different form factors, the ones you want
 | D1              | 5mm LED                               |    (1)|
 | D2-D4           | 1N4148 small signal diode             |    (3)|
 | J1 Audio        | 3.5mm 5pin green audio socket (PJ307) |    (1)|
-| J2              | 2x20 straight header pins             |     1 |
+| J2              | 2x20 female header pins *             |     1 |
 | J3              | 2x5 right-angle header pins           |    (1)|
 | Q1-Q2           | 2N3906 TO-92 transistor               |     2 |
 | Q3-Q5           | 2N3904 TO-92 transistor               |    (3)|
@@ -55,3 +55,10 @@ Some vendors will have the same ICs in different form factors, the ones you want
 | U1              | 74LS374 (DIP-20)                      |     1 |
 | U2              | 74LS00 (DIP-14)                       |     1 |
 | U3              | 74LS73 (DIP-14)                       |    (1)|
+|                 | M3 nylon hex standoffs **             |     4 |
+|                 | M3 nylon screws **                    |     4 |
+|                 | M3 nylon nuts **                      |     4 |
+
+*) An ordinary set of 2x20 female header pins can be installed on the reverse-side, but since the connector has quite a few signals that could be used for your own projects later I recommend getting ones with the longer pins - these are most oftenly found listed as a stacking Raspberry Pi header. Slot onto CPU-module using M3 standoffs before soldering to get the spacing correct.
+
+**) The length of the nylon standoffs depend on the female header pins used, extra length (M3x12mm) or the ordinary non-stacking variant (M3x10mm). Better yet, get one of those $4 M3 Nylon Stand-off sets from China - that way you're all set for a few projects down the road as well.
