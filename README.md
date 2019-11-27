@@ -17,9 +17,9 @@ As with most of my computer builds the computer have been split into two require
 
 | Module             | RC6802 Microchicken        | Expanded system | Order |
 | ------------------ | -------------------------- | --------------- | ----- |
-| [CPU](https://github.com/tebl/RC6802-Microchicken/tree/master/RC6802%20CPU) | required | required | |
-| [User Interface](https://github.com/tebl/RC6802-Microchicken/tree/master/RC6802%20UI) | required | required | |
-| [Backplane](https://github.com/tebl/RC6502-Apple-1-Replica/tree/master/RC6502%20Backplane) | | required | [order](https://www.pcbway.com/project/shareproject/RC6502_Apple_1_Replica__Backplane_module_revision_A_.html?inviteid=88707) |
-| [Prototyping module](https://github.com/tebl/RC6502-Apple-1-Replica/tree/master/RC6502%20Prototyping) | | optional | [order](https://www.pcbway.com/project/shareproject/RC6502_Apple_1_Replica__Module_prototyping_board_.html?inviteid=88707) |
+| [CPU](https://github.com/tebl/RC6802-Microchicken/tree/master/RC6802%20CPU) | required | required | [PCBWay](https://www.pcbway.com/project/shareproject/RC6802_Microchicken__CPU_module_revision_B_.html?inviteid=88707) |
+| [User Interface](https://github.com/tebl/RC6802-Microchicken/tree/master/RC6802%20UI) | required | required | [PCBWay](https://www.pcbway.com/project/shareproject/RC6802_Microchicken__UI_module_revision_B_.html?inviteid=88707) |
+| [Backplane](https://github.com/tebl/RC6502-Apple-1-Replica/tree/master/RC6502%20Backplane) | | required | [PCBWay](https://www.pcbway.com/project/shareproject/RC6502_Apple_1_Replica__Backplane_module_revision_A_.html?inviteid=88707) |
+| [Prototyping module](https://github.com/tebl/RC6502-Apple-1-Replica/tree/master/RC6502%20Prototyping) | | optional | [PCBWay](https://www.pcbway.com/project/shareproject/RC6502_Apple_1_Replica__Module_prototyping_board_.html?inviteid=88707) |
 
 As modules are constantly being worked on, I've also added an order link to the modules so that you can always get the last version I know works. Click the module name for more information about that specific module, including schematic and the list of parts you'd need to build it (BOM).
