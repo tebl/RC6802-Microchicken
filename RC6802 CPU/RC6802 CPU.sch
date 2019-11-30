@@ -1778,19 +1778,19 @@ Entry Wire Line
 Text Notes 10475 5025 0    60   ~ 0
 $2000
 Text Notes 10475 5125 0    60   ~ 0
-$2200
-Text Notes 10475 5225 0    60   ~ 0
 $2400
-Text Notes 10475 5325 0    60   ~ 0
-$2600
-Text Notes 10475 5425 0    60   ~ 0
+Text Notes 10475 5225 0    60   ~ 0
 $2800
-Text Notes 10475 5525 0    60   ~ 0
-$2A00
-Text Notes 10475 5625 0    60   ~ 0
+Text Notes 10475 5325 0    60   ~ 0
 $2C00
+Text Notes 10475 5425 0    60   ~ 0
+$3000
+Text Notes 10475 5525 0    60   ~ 0
+$3400
+Text Notes 10475 5625 0    60   ~ 0
+$3800
 Text Notes 10475 5725 0    60   ~ 0
-$2E00
+$3C00
 Text GLabel 15050 5950 0    60   Input ~ 0
 ~8K1
 Entry Wire Line
