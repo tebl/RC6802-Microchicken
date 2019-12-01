@@ -1,0 +1,703 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:mounting
+LIBS:Oscillators
+LIBS:switches
+LIBS:rc6802_ui_port
+LIBS:sw_keyboard
+LIBS:trs_3.5mm
+LIBS:RC6802 Beep Chaser-cache
+EELAYER 25 0
+EELAYER END
+$Descr A3 16535 11693
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Mounting M3
+U 1 1 5D63FDD2
+P 15775 575
+F 0 "M3" H 15775 675 50  0001 C CNN
+F 1 "Mounting" H 15775 500 50  0001 C CNN
+F 2 "mounting:1pin" H 15775 575 50  0001 C CNN
+F 3 "" H 15775 575 50  0001 C CNN
+	1    15775 575 
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mounting M4
+U 1 1 5D63FDF2
+P 15900 575
+F 0 "M4" H 15900 675 50  0001 C CNN
+F 1 "Mounting" H 15900 500 50  0001 C CNN
+F 2 "mounting:1pin" H 15900 575 50  0001 C CNN
+F 3 "" H 15900 575 50  0001 C CNN
+	1    15900 575 
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR01
+U 1 1 5D65DEF6
+P 6125 4775
+F 0 "#PWR01" H 6125 4525 50  0001 C CNN
+F 1 "GND" H 6125 4625 50  0000 C CNN
+F 2 "" H 6125 4775 50  0001 C CNN
+F 3 "" H 6125 4775 50  0001 C CNN
+	1    6125 4775
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR02
+U 1 1 5D65E216
+P 4625 4625
+F 0 "#PWR02" H 4625 4475 50  0001 C CNN
+F 1 "VCC" H 4625 4775 50  0000 C CNN
+F 2 "" H 4625 4625 50  0001 C CNN
+F 3 "" H 4625 4625 50  0001 C CNN
+	1    4625 4625
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C1
+U 1 1 5D71BEBA
+P 11150 10575
+F 0 "C1" H 11175 10675 50  0000 L CNN
+F 1 "100nF" H 11175 10475 50  0000 L CNN
+F 2 "Capacitors_THT:C_Disc_D4.7mm_W2.5mm_P5.00mm" H 11188 10425 50  0001 C CNN
+F 3 "" H 11150 10575 50  0001 C CNN
+	1    11150 10575
+	-1   0    0    -1  
+$EndComp
+$Comp
+L GND #PWR03
+U 1 1 5D71E74B
+P 11450 10875
+F 0 "#PWR03" H 11450 10625 50  0001 C CNN
+F 1 "GND" H 11450 10725 50  0000 C CNN
+F 2 "" H 11450 10875 50  0001 C CNN
+F 3 "" H 11450 10875 50  0001 C CNN
+	1    11450 10875
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR04
+U 1 1 5D72035A
+P 11150 10275
+F 0 "#PWR04" H 11150 10125 50  0001 C CNN
+F 1 "VCC" H 11150 10425 50  0000 C CNN
+F 2 "" H 11150 10275 50  0001 C CNN
+F 3 "" H 11150 10275 50  0001 C CNN
+	1    11150 10275
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C2
+U 1 1 5D72237F
+P 11450 10575
+F 0 "C2" H 11475 10675 50  0000 L CNN
+F 1 "100nF" H 11475 10475 50  0000 L CNN
+F 2 "Capacitors_THT:C_Disc_D4.7mm_W2.5mm_P5.00mm" H 11488 10425 50  0001 C CNN
+F 3 "" H 11450 10575 50  0001 C CNN
+	1    11450 10575
+	-1   0    0    -1  
+$EndComp
+$Comp
+L GND #PWR05
+U 1 1 5D72A34D
+P 5725 6675
+F 0 "#PWR05" H 5725 6425 50  0001 C CNN
+F 1 "GND" H 5725 6525 50  0000 C CNN
+F 2 "" H 5725 6675 50  0001 C CNN
+F 3 "" H 5725 6675 50  0001 C CNN
+	1    5725 6675
+	1    0    0    -1  
+$EndComp
+Text Notes 12175 10925 0    60   ~ 0
+RC6802 Beep Chaser
+$Comp
+L RC6802_UI_Port J2
+U 1 1 5D889368
+P 5175 5650
+F 0 "J2" H 5175 6700 50  0000 C CNN
+F 1 "RC6802_UI_Port" V 5175 5650 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_2x20_Pitch2.54mm" H 5100 4700 50  0001 C CNN
+F 3 "" H 5100 4700 50  0001 C CNN
+	1    5175 5650
+	-1   0    0    1   
+$EndComp
+Text Label 5900 5800 2    60   ~ 0
+D0
+Text Label 5900 5900 2    60   ~ 0
+D1
+Text Label 5900 6000 2    60   ~ 0
+D2
+Text Label 5900 6100 2    60   ~ 0
+D3
+Text Label 5900 6200 2    60   ~ 0
+D4
+Text Label 5900 6300 2    60   ~ 0
+D5
+Text Label 5900 6400 2    60   ~ 0
+D6
+Text Label 5900 6500 2    60   ~ 0
+D7
+Entry Wire Line
+	6025 6500 5925 6400
+Entry Wire Line
+	6025 6400 5925 6300
+Entry Wire Line
+	6025 6300 5925 6200
+Entry Wire Line
+	6025 6200 5925 6100
+Entry Wire Line
+	6025 6100 5925 6000
+Entry Wire Line
+	6025 6000 5925 5900
+Entry Wire Line
+	6025 5900 5925 5800
+Entry Wire Line
+	6025 6600 5925 6500
+Text Label 5900 4900 2    60   ~ 0
+IO1
+$Comp
+L 74LS374 U1
+U 1 1 5D84FA24
+P 8525 4275
+F 0 "U1" H 8525 4275 50  0000 C CNN
+F 1 "74LS374" H 8575 3925 50  0000 C CNN
+F 2 "Housings_DIP:DIP-20_W7.62mm_Socket" H 8525 4275 50  0001 C CNN
+F 3 "" H 8525 4275 50  0001 C CNN
+	1    8525 4275
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR06
+U 1 1 5D850423
+P 7750 4850
+F 0 "#PWR06" H 7750 4600 50  0001 C CNN
+F 1 "GND" H 7750 4700 50  0000 C CNN
+F 2 "" H 7750 4850 50  0001 C CNN
+F 3 "" H 7750 4850 50  0001 C CNN
+	1    7750 4850
+	1    0    0    -1  
+$EndComp
+Text Label 7575 4675 0    60   ~ 0
+IO1
+Text Label 7575 3775 0    60   ~ 0
+D0
+Text Label 7575 3875 0    60   ~ 0
+D1
+Text Label 7575 3975 0    60   ~ 0
+D2
+Text Label 7575 4075 0    60   ~ 0
+D3
+Text Label 7575 4175 0    60   ~ 0
+D4
+Text Label 7575 4275 0    60   ~ 0
+D5
+Text Label 7575 4375 0    60   ~ 0
+D6
+Text Label 7575 4475 0    60   ~ 0
+D7
+$Comp
+L R R5
+U 1 1 5D851DC0
+P 9375 3875
+F 0 "R5" V 9455 3875 50  0001 C CNN
+F 1 "220" V 9375 3875 50  0000 C CNN
+F 2 "Resistors_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" V 9305 3875 50  0001 C CNN
+F 3 "" H 9375 3875 50  0001 C CNN
+	1    9375 3875
+	0    1    1    0   
+$EndComp
+$Comp
+L R R6
+U 1 1 5D851E2B
+P 9375 3975
+F 0 "R6" V 9455 3975 50  0001 C CNN
+F 1 "220" V 9375 3975 50  0000 C CNN
+F 2 "Resistors_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" V 9305 3975 50  0001 C CNN
+F 3 "" H 9375 3975 50  0001 C CNN
+	1    9375 3975
+	0    1    1    0   
+$EndComp
+$Comp
+L R R7
+U 1 1 5D851E96
+P 9375 4075
+F 0 "R7" V 9455 4075 50  0001 C CNN
+F 1 "220" V 9375 4075 50  0000 C CNN
+F 2 "Resistors_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" V 9305 4075 50  0001 C CNN
+F 3 "" H 9375 4075 50  0001 C CNN
+	1    9375 4075
+	0    1    1    0   
+$EndComp
+$Comp
+L R R8
+U 1 1 5D851F01
+P 9375 4175
+F 0 "R8" V 9455 4175 50  0001 C CNN
+F 1 "220" V 9375 4175 50  0000 C CNN
+F 2 "Resistors_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" V 9305 4175 50  0001 C CNN
+F 3 "" H 9375 4175 50  0001 C CNN
+	1    9375 4175
+	0    1    1    0   
+$EndComp
+$Comp
+L R R9
+U 1 1 5D851F6C
+P 9375 4275
+F 0 "R9" V 9455 4275 50  0001 C CNN
+F 1 "220" V 9375 4275 50  0000 C CNN
+F 2 "Resistors_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" V 9305 4275 50  0001 C CNN
+F 3 "" H 9375 4275 50  0001 C CNN
+	1    9375 4275
+	0    1    1    0   
+$EndComp
+$Comp
+L R R10
+U 1 1 5D851FD7
+P 9375 4375
+F 0 "R10" V 9455 4375 50  0001 C CNN
+F 1 "220" V 9375 4375 50  0000 C CNN
+F 2 "Resistors_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" V 9305 4375 50  0001 C CNN
+F 3 "" H 9375 4375 50  0001 C CNN
+	1    9375 4375
+	0    1    1    0   
+$EndComp
+$Comp
+L R R11
+U 1 1 5D852042
+P 9375 4475
+F 0 "R11" V 9455 4475 50  0001 C CNN
+F 1 "220" V 9375 4475 50  0000 C CNN
+F 2 "Resistors_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" V 9305 4475 50  0001 C CNN
+F 3 "" H 9375 4475 50  0001 C CNN
+	1    9375 4475
+	0    1    1    0   
+$EndComp
+Entry Wire Line
+	7550 4075 7450 4175
+Entry Wire Line
+	7550 4175 7450 4275
+Entry Wire Line
+	7550 4275 7450 4375
+Entry Wire Line
+	7550 4375 7450 4475
+Entry Wire Line
+	7550 4475 7450 4575
+Entry Wire Line
+	7550 3875 7450 3975
+Entry Wire Line
+	7550 4675 7450 4775
+Entry Wire Line
+	7550 3975 7450 4075
+Entry Wire Line
+	7550 3775 7450 3875
+Entry Wire Line
+	6025 5000 5925 4900
+NoConn ~ 5650 5100
+NoConn ~ 5650 5200
+NoConn ~ 5650 5300
+NoConn ~ 5650 5400
+NoConn ~ 5650 5500
+NoConn ~ 4700 5600
+NoConn ~ 4700 5700
+NoConn ~ 4700 5800
+NoConn ~ 4700 5900
+NoConn ~ 4700 6000
+NoConn ~ 4700 6100
+NoConn ~ 5650 5700
+Wire Wire Line
+	5650 4700 6125 4700
+Wire Wire Line
+	4625 4625 4625 4700
+Wire Wire Line
+	4625 4700 4700 4700
+Wire Bus Line
+	6025 5000 6025 6600
+Wire Wire Line
+	11150 10800 11450 10800
+Wire Wire Line
+	11150 10800 11150 10725
+Wire Wire Line
+	11450 10725 11450 10875
+Connection ~ 11450 10800
+Wire Wire Line
+	11150 10350 11450 10350
+Wire Wire Line
+	11150 10275 11150 10425
+Wire Wire Line
+	11450 10350 11450 10425
+Connection ~ 11150 10350
+Wire Wire Line
+	5650 5800 5925 5800
+Wire Wire Line
+	5650 5900 5925 5900
+Wire Wire Line
+	5650 6000 5925 6000
+Wire Wire Line
+	5650 6100 5925 6100
+Wire Wire Line
+	5650 6200 5925 6200
+Wire Wire Line
+	5650 6500 5925 6500
+Wire Wire Line
+	5650 6400 5925 6400
+Wire Wire Line
+	5650 6300 5925 6300
+Wire Wire Line
+	5650 4900 5925 4900
+Wire Wire Line
+	5650 6600 5725 6600
+Wire Wire Line
+	5725 6600 5725 6675
+Wire Wire Line
+	6125 4700 6125 4775
+Wire Wire Line
+	7750 4850 7750 4775
+Wire Wire Line
+	7750 4775 7825 4775
+Wire Wire Line
+	7825 3775 7550 3775
+Wire Wire Line
+	7825 3875 7550 3875
+Wire Wire Line
+	7825 3975 7550 3975
+Wire Wire Line
+	7825 4075 7550 4075
+Wire Wire Line
+	7825 4175 7550 4175
+Wire Wire Line
+	7825 4475 7550 4475
+Wire Wire Line
+	7825 4375 7550 4375
+Wire Wire Line
+	7825 4275 7550 4275
+Wire Wire Line
+	7550 4675 7825 4675
+Wire Bus Line
+	7450 3875 7450 4775
+Wire Bus Line
+	7450 4325 7375 4325
+Wire Bus Line
+	6025 5625 7375 5625
+Text Notes 15400 11075 0    60   ~ 0
+B
+$Comp
+L R R4
+U 1 1 5DCFC98D
+P 9375 3775
+F 0 "R4" V 9455 3775 50  0001 C CNN
+F 1 "220" V 9375 3775 50  0000 C CNN
+F 2 "Resistors_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" V 9305 3775 50  0001 C CNN
+F 3 "" H 9375 3775 50  0001 C CNN
+	1    9375 3775
+	0    1    1    0   
+$EndComp
+$Comp
+L LED_Small D0
+U 1 1 5DCFD21D
+P 9625 3775
+F 0 "D0" H 9475 3825 50  0000 L CNN
+F 1 "LED" H 9450 3675 50  0001 L CNN
+F 2 "LEDs:LED_D5.0mm" V 9625 3775 50  0001 C CNN
+F 3 "" V 9625 3775 50  0001 C CNN
+	1    9625 3775
+	-1   0    0    -1  
+$EndComp
+$Comp
+L LED_Small D1
+U 1 1 5DCFD99F
+P 9625 3875
+F 0 "D1" H 9475 3925 50  0000 L CNN
+F 1 "LED" H 9450 3775 50  0001 L CNN
+F 2 "LEDs:LED_D5.0mm" V 9625 3875 50  0001 C CNN
+F 3 "" V 9625 3875 50  0001 C CNN
+	1    9625 3875
+	-1   0    0    -1  
+$EndComp
+$Comp
+L LED_Small D2
+U 1 1 5DCFDA31
+P 9625 3975
+F 0 "D2" H 9475 4025 50  0000 L CNN
+F 1 "LED" H 9450 3875 50  0001 L CNN
+F 2 "LEDs:LED_D5.0mm" V 9625 3975 50  0001 C CNN
+F 3 "" V 9625 3975 50  0001 C CNN
+	1    9625 3975
+	-1   0    0    -1  
+$EndComp
+$Comp
+L LED_Small D3
+U 1 1 5DCFDAC6
+P 9625 4075
+F 0 "D3" H 9475 4125 50  0000 L CNN
+F 1 "LED" H 9450 3975 50  0001 L CNN
+F 2 "LEDs:LED_D5.0mm" V 9625 4075 50  0001 C CNN
+F 3 "" V 9625 4075 50  0001 C CNN
+	1    9625 4075
+	-1   0    0    -1  
+$EndComp
+$Comp
+L LED_Small D4
+U 1 1 5DCFDD46
+P 9625 4175
+F 0 "D4" H 9475 4225 50  0000 L CNN
+F 1 "LED" H 9450 4075 50  0001 L CNN
+F 2 "LEDs:LED_D5.0mm" V 9625 4175 50  0001 C CNN
+F 3 "" V 9625 4175 50  0001 C CNN
+	1    9625 4175
+	-1   0    0    -1  
+$EndComp
+$Comp
+L LED_Small D5
+U 1 1 5DCFDDE1
+P 9625 4275
+F 0 "D5" H 9475 4325 50  0000 L CNN
+F 1 "LED" H 9450 4175 50  0001 L CNN
+F 2 "LEDs:LED_D5.0mm" V 9625 4275 50  0001 C CNN
+F 3 "" V 9625 4275 50  0001 C CNN
+	1    9625 4275
+	-1   0    0    -1  
+$EndComp
+$Comp
+L LED_Small D6
+U 1 1 5DCFDE7F
+P 9625 4375
+F 0 "D6" H 9475 4425 50  0000 L CNN
+F 1 "LED" H 9450 4275 50  0001 L CNN
+F 2 "LEDs:LED_D5.0mm" V 9625 4375 50  0001 C CNN
+F 3 "" V 9625 4375 50  0001 C CNN
+	1    9625 4375
+	-1   0    0    -1  
+$EndComp
+$Comp
+L LED_Small D7
+U 1 1 5DCFDF20
+P 9625 4475
+F 0 "D7" H 9475 4525 50  0000 L CNN
+F 1 "LED" H 9450 4375 50  0001 L CNN
+F 2 "LEDs:LED_D5.0mm" V 9625 4475 50  0001 C CNN
+F 3 "" V 9625 4475 50  0001 C CNN
+	1    9625 4475
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	9725 3775 9800 3775
+Wire Wire Line
+	9800 3775 9800 4550
+Wire Wire Line
+	9725 4475 9800 4475
+Connection ~ 9800 4475
+Wire Wire Line
+	9725 4375 9800 4375
+Connection ~ 9800 4375
+Wire Wire Line
+	9725 4275 9800 4275
+Connection ~ 9800 4275
+Wire Wire Line
+	9725 4175 9800 4175
+Connection ~ 9800 4175
+Wire Wire Line
+	9800 4075 9725 4075
+Connection ~ 9800 4075
+Wire Wire Line
+	9725 3975 9800 3975
+Connection ~ 9800 3975
+Wire Wire Line
+	9725 3875 9800 3875
+Connection ~ 9800 3875
+$Comp
+L GND #PWR07
+U 1 1 5DD0036F
+P 9800 4550
+F 0 "#PWR07" H 9800 4300 50  0001 C CNN
+F 1 "GND" H 9800 4400 50  0000 C CNN
+F 2 "" H 9800 4550 50  0001 C CNN
+F 3 "" H 9800 4550 50  0001 C CNN
+	1    9800 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Speaker LS1
+U 1 1 5DCF43A7
+P 9725 6175
+F 0 "LS1" H 9775 6400 50  0000 R CNN
+F 1 "Speaker" H 9775 6325 50  0000 R CNN
+F 2 "Speaker:Mini_Speaker" H 9725 5975 50  0001 C CNN
+F 3 "" H 9715 6125 50  0001 C CNN
+	1    9725 6175
+	1    0    0    -1  
+$EndComp
+Text Label 5900 5000 2    60   ~ 0
+IO2
+Entry Wire Line
+	6025 5100 5925 5000
+Wire Wire Line
+	5650 5000 5925 5000
+$Comp
+L 74LS374 U2
+U 1 1 5DCF5F97
+P 8525 6675
+F 0 "U2" H 8525 6675 50  0000 C CNN
+F 1 "74LS374" H 8575 6325 50  0000 C CNN
+F 2 "Housings_DIP:DIP-20_W7.62mm_Socket" H 8525 6675 50  0001 C CNN
+F 3 "" H 8525 6675 50  0001 C CNN
+	1    8525 6675
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR08
+U 1 1 5DCF5F9D
+P 7750 7250
+F 0 "#PWR08" H 7750 7000 50  0001 C CNN
+F 1 "GND" H 7750 7100 50  0000 C CNN
+F 2 "" H 7750 7250 50  0001 C CNN
+F 3 "" H 7750 7250 50  0001 C CNN
+	1    7750 7250
+	1    0    0    -1  
+$EndComp
+Text Label 7575 6175 0    60   ~ 0
+D0
+Entry Wire Line
+	7550 7075 7450 7175
+Wire Wire Line
+	7750 7250 7750 7175
+Wire Wire Line
+	7750 7175 7825 7175
+Wire Wire Line
+	7825 6175 7550 6175
+Wire Wire Line
+	7550 7075 7825 7075
+Wire Bus Line
+	7450 6275 7450 7175
+Wire Bus Line
+	7375 6725 7450 6725
+$Comp
+L GND #PWR09
+U 1 1 5DCF87C7
+P 9450 6350
+F 0 "#PWR09" H 9450 6100 50  0001 C CNN
+F 1 "GND" H 9450 6200 50  0000 C CNN
+F 2 "" H 9450 6350 50  0001 C CNN
+F 3 "" H 9450 6350 50  0001 C CNN
+	1    9450 6350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9450 6275 9525 6275
+NoConn ~ 9225 6275
+NoConn ~ 9225 6375
+NoConn ~ 9225 6475
+NoConn ~ 9225 6575
+NoConn ~ 9225 6675
+NoConn ~ 9225 6775
+NoConn ~ 9225 6875
+$Comp
+L GND #PWR010
+U 1 1 5DCF9499
+P 7600 6650
+F 0 "#PWR010" H 7600 6400 50  0001 C CNN
+F 1 "GND" H 7600 6500 50  0000 C CNN
+F 2 "" H 7600 6650 50  0001 C CNN
+F 3 "" H 7600 6650 50  0001 C CNN
+	1    7600 6650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7750 6875 7825 6875
+Wire Wire Line
+	7750 6275 7750 6875
+Wire Wire Line
+	7750 6775 7825 6775
+Wire Wire Line
+	7750 6275 7825 6275
+Connection ~ 7750 6775
+Wire Wire Line
+	7825 6375 7750 6375
+Connection ~ 7750 6375
+Wire Wire Line
+	7750 6475 7825 6475
+Connection ~ 7750 6475
+Wire Wire Line
+	7600 6575 7825 6575
+Connection ~ 7750 6575
+Wire Wire Line
+	7750 6675 7825 6675
+Connection ~ 7750 6675
+Wire Wire Line
+	7600 6575 7600 6650
+Entry Wire Line
+	7550 6175 7450 6275
+Text Label 7575 7075 0    60   ~ 0
+IO2
+NoConn ~ 4700 4800
+NoConn ~ 4700 4900
+NoConn ~ 4700 5000
+NoConn ~ 4700 5100
+NoConn ~ 4700 5200
+NoConn ~ 4700 5300
+NoConn ~ 4700 5400
+NoConn ~ 4700 5500
+NoConn ~ 4700 6200
+NoConn ~ 4700 6300
+NoConn ~ 4700 6400
+NoConn ~ 4700 6500
+NoConn ~ 4700 6600
+NoConn ~ 5650 4800
+NoConn ~ 5650 5600
+Wire Bus Line
+	7375 4325 7375 6725
+$Comp
+L R R1
+U 1 1 5DCFBB21
+P 9375 6175
+F 0 "R1" V 9455 6175 50  0001 C CNN
+F 1 "100" V 9375 6175 50  0000 C CNN
+F 2 "Resistors_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" V 9305 6175 50  0001 C CNN
+F 3 "" H 9375 6175 50  0001 C CNN
+	1    9375 6175
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	9450 6275 9450 6350
+Text Notes 11825 10250 0    60   ~ 0
+Silly little addition to be sure, but some of the code examples had them - so I added\nsome more LEDs to output to along with the speaker (footprint should accommodate both\n23mm and 30mm outer diameter 8 Ohm speakers).
+$EndSCHEMATC
