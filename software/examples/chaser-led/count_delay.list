@@ -1,0 +1,36 @@
+
+SB-Cross Assembler version 3.03.06
+Please visit www.sbprojects.net for a complete description.
+
+Assembling....
+
+Pass one
+Loaded 6800 overlay version 3.01.01
+
+Pass two
+0000-                  1      * ---------------------------------------------------------
+0000-                  2
+0000-                  3              .CR     6800
+0000-                  4
+0001-                  5              .OR     $0001
+0001-                  6              .TA     $0000
+0001-                  7
+2400-                  8      LED     .EQ     $2400   LED I/O ADDRESS
+FC8B-                  9      DELAY   .EQ     $FC8B   MONITOR DELAY SUB-ROUTINE
+0001-                 10
+0076-                 11      CLOCK   .EQ     $76     TIME-DELAY VALUE & OUTER-LOOP COUNTER
+C000-                 12      VALUE   .EQ     $C000   STORE CURRENT VALUE
+0001-                 13
+0001-86 00            14 ( 2) START   LDAA    #$00    START AT ZERO
+0003-B7 24 00         15 ( 5) LOOP    STAA    LED     OUTPUT TO LEDS
+0006-4C               16 ( 2)         INCA            INCREMENT CURRENT VALUE
+0007-B7 C0 00         17 ( 5)         STAA    VALUE   SAVE CURRENT VALUE
+000A-86 F0            18 ( 2)         LDAA    #$F0    SETUP DELAY FUNCTION
+000C-97 76            19 ( 4)         STAA    CLOCK
+000E-BD FC 8B         20 ( 9)         JSR     DELAY   PERFORM DELAY
+0011-B6 C0 00         21 ( 4)         LDAA    VALUE   RESTORE CURRENT VALUE
+0014-7E 00 03         22 ( 3)         JMP     LOOP
+
+0 Errors found during assembly.
+0 Warnings found during assembly.
+

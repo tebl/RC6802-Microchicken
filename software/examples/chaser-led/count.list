@@ -1,0 +1,27 @@
+
+SB-Cross Assembler version 3.03.06
+Please visit www.sbprojects.net for a complete description.
+
+Assembling....
+
+Pass one
+Loaded 6800 overlay version 3.01.01
+
+Pass two
+0000-                  1      * ---------------------------------------------------------
+0000-                  2
+0000-                  3              .CR     6800
+0000-                  4
+0001-                  5              .OR     $0001
+0001-                  6              .TA     $0000
+0001-                  7
+2400-                  8      LED     .EQ     $2400   LED I/O ADDRESS
+0001-                  9
+0001-86 00            10 ( 2) START   LDAA    #$00    START AT ZERO
+0003-B7 24 00         11 ( 5) LOOP    STAA    LED     OUTPUT TO LEDS
+0006-4C               12 ( 2)         INCA            INCREMENT CURRENT VALUE
+0007-7E 00 03         13 ( 3)         JMP     LOOP
+
+0 Errors found during assembly.
+0 Warnings found during assembly.
+
