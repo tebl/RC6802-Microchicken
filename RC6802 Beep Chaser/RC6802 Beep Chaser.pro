@@ -1,4 +1,4 @@
-update=16/11/2019 02:19:16
+update=03/12/2019 23:34:30
 version=1
 last_client=kicad
 [pcbnew]
@@ -62,6 +62,8 @@ LibName32=C:/Program Files/KiCad/share/kicad/library/switches
 LibName33=rc6802_ui_port
 LibName34=sw_keyboard
 LibName35=trs_3.5mm
+[general]
+version=1
 [schematic_editor]
 version=1
 PageLayoutDescrFile=
@@ -72,5 +74,3 @@ NetFmtName=Pcbnew
 SpiceForceRefPrefix=0
 SpiceUseNetNumbers=0
 LabSize=60
-[general]
-version=1
