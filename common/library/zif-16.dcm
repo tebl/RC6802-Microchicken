@@ -1,0 +1,8 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP ZIF-16
+D 8 bits Register, 3 state Out
+K TTL DFF DFF8 REG 3State
+$ENDCMP
+#
+#End Doc Library
