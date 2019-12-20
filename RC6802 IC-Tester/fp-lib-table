@@ -2,4 +2,5 @@
   (lib (name mounting)(type KiCad)(uri "$(KIPRJMOD)/../common/modules/mounting.pretty")(options "")(descr ""))
   (lib (name TRS)(type KiCad)(uri "$(KIPRJMOD)/../common/modules/TRS.pretty")(options "")(descr ""))
   (lib (name DPDT_Switch)(type KiCad)(uri "$(KIPRJMOD)/../common/modules/6pin_switch.pretty")(options "")(descr ""))
+  (lib (name ZIF)(type KiCad)(uri "$(KIPRJMOD)/../common/modules/ZIF.pretty")(options "")(descr ""))
 )
