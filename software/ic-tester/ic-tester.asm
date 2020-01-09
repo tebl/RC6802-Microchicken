@@ -146,14 +146,16 @@ DELAY3  DEC     DLY
 * ---------------------------------------------------------
 * SEGMENT CODES TO DISPLAY MESSAGE "BAD":
 *
-        .OR     $F900
-        .TA     $1900
+        .OR     $E000
+        .TA     $0000
 DISBAD  .HS     030821
 
 *
 * ---------------------------------------------------------
 * TEST DATA FILES, LABELS GIVE IC TYPE. T = TTL, C = CMOS
 * 
+        .OR     $E100
+        .TA     $0100
 T7400   .HS     9BEDA492B6B6ADDA9BEC24927F40407F4030F0
 T7404   .HS     95D5AAAA95D42AAA7F40197F4012F0
 T7420   .HS     9FFD9BECBAAEB9CEB3E6ABEA20827F24407F2424F0

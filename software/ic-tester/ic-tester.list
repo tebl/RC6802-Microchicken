@@ -37,193 +37,193 @@ Pass two
 0000-                 27
 0000-                 28      DLY     .EQ     $0000   DELAY COUNTER STROBES LEDS 3 MS EACH
 0000-                 29
-0000-                 30      ;        .OR     $FC00   * FILE OF PATTERNS FOR HEX DISPLAY
-0000-                 31      ;        .TA     $1C00   *  ON 7-SEG LEDS STARTS AT $FC00.
-0000-                 32      ;        .HS     80.F2.48.60.32.24.04.F0.00.30.10.06.8C.42.0C.1C
-0000-                 33
-F800-                 34              .OR     $F800   SUBROUTINES & PROGM START AT $F800 -
-F800-                 35              .TA     $1800    $1800 WITHIN EEPROM.
+F800-                 30              .OR     $F800   SUBROUTINES & PROGM START AT $F800 -
+F800-                 31              .TA     $1800    $1800 WITHIN EEPROM.
+F800-                 32      *
+F800-                 33      * ---------------------------------------------------------
+F800-                 34      * MODULE 1 -- SET UP I/O PORTS FOR INPUTS AND OUTPUTS.
+F800-                 35      *  CHECK FOR END OF FILE FLAG ($FF).
 F800-                 36      *
-F800-                 37      * ---------------------------------------------------------
-F800-                 38      * MODULE 1 -- SET UP I/O PORTS FOR INPUTS AND OUTPUTS.
-F800-                 39      *  CHECK FOR END OF FILE FLAG ($FF).
-F800-                 40      *
-F800-CE F8 AF         41 ( 3) START   LDX     #T7400  DATA FILE STARTS WITH TTL TYPE 7400
-F803-7F 40 01         42 ( 6) NXTYP   CLR     CRA
-F806-7F 40 03         43 ( 6)         CLR     CRB
-F809-A6 00            44 ( 5)         LDAA    00,X
-F80B-E6 01            45 ( 5)         LDAB    01,X
-F80D-B7 40 00         46 ( 5)         STAA    DRA
-F810-F7 40 02         47 ( 5)         STAB    DRB
-F813-81 FF            48 ( 2)         CMPA    #$FF
-F815-01               49 ( 2)         NOP
-F816-01               50 ( 2)         NOP
-F817-26 07            51 ( 4)         BNE     GETPRT
-F819-C1 FF            52 ( 2)         CMPB    #$FF
-F81B-26 03            53 ( 4)         BNE     GETPRT
-F81D-7E F8 71         54 ( 3)         JMP     BAD
-F820-86 04            55 ( 2) GETPRT  LDAA    #04
-F822-B7 40 01         56 ( 5)         STAA    CRA
-F825-B7 40 03         57 ( 5)         STAA    CRB
-F828-                 58      *
-F828-                 59      * ---------------------------------------------------------
-F828-                 60      * MODULE 2 -- CHECK FOR END OF TYPE FLAG (A7 & B7 LO) AND
-F828-                 61      *  DISPLAY TYPE NO. IF, OTHERWISE OUTPUT 2 BYTES TO CHIP.
-F828-                 62      *  IF A7 = 1 & B7 = 0, A F-FLOP OR COUNTER IS BEING SET UP.
-F828-                 63      *  SKIP TESTS AND LOOP BACK FOR 2 MORE BYTES. OTHERWISE
-F828-                 64      *  TEST CHIP OUTPUTS AGAINST FILE DATA.
-F828-                 65      *
-F828-08               66 ( 4) NXTST   INX
-F829-08               67 ( 4)         INX
-F82A-A6 00            68 ( 5)         LDAA    00,X
-F82C-2A 23            69 ( 4)         BPL     OKOROC
-F82E-E6 01            70 ( 5)         LDAB    01,X
-F830-B7 40 00         71 ( 5)         STAA    DRA
-F833-F7 40 02         72 ( 5)         STAB    DRB
-F836-2A F0            73 ( 4)         BPL     NXTST
-F838-B6 40 00         74 ( 4)         LDAA    DRA
-F83B-A1 00            75 ( 5)         CMPA    00,X
-F83D-26 07            76 ( 4)         BNE     NOT
-F83F-F6 40 02         77 ( 4)         LDAB    DRB
-F842-E1 01            78 ( 5)         CMPB    01,X
-F844-27 E2            79 ( 4)         BEQ     NXTST
-F846-                 80      *
-F846-                 81      * ---------------------------------------------------------
-F846-                 82      * MODULE 3 -- IF COMPARISON FAILS SHUFFLE THROUGH FILE
-F846-                 83      *  UNTIL END-OF-TYPE FLAG (F0) IS FOUND, THEN ADVANCE 1
-F846-                 84      *  MORE TO NEXT TYPE.
-F846-                 85      *
-F846-08               86 ( 4) NOT     INX
-F847-A6 00            87 ( 5)         LDAA    00,X
-F849-81 F0            88 ( 2)         CMPA    #$F0
-F84B-26 F9            89 ( 4)         BNE     NOT
-F84D-08               90 ( 4)         INX
-F84E-7E F8 03         91 ( 3)         JMP     NXTYP
-F851-                 92      *
-F851-                 93      * ---------------------------------------------------------
-F851-                 94      * MODULE 4 -- IF A7 = 0 AND B7 = 0 THEN DISPLAY TYPE, BUT
-F851-                 95      *  IF A7 = 0 AND B7 = 1 THEN PULL ALL IC PINS LOW THROUGH
-F851-                 96      *  10K RESISTORS AND DO A LAST LOGIC TEST. IF TEST IS
-F851-                 97      *  PASSED CHIP IS ACTIVE OUTPUT; DISPLAY FIRST SET OF 3
-F851-                 98      *  TYPE NUMBER DIGITS. IF TEST FAILED, CHIP IS OPEN-
-F851-                 99      *  COLLECTOR; DISPLAY 2ND SET OF 3 DIGITS.
-F851-                100      *
-F851-E6 01           101 ( 5) OKOROC  LDAB    01,X
-F853-2A 1F           102 ( 4)         BPL     DISPLY
-F855-B7 40 00        103 ( 5)         STAA    DRA
-F858-F7 40 02        104 ( 5)         STAB    DRB
-F85B-B6 40 00        105 ( 4)         LDAA    DRA
-F85E-A1 00           106 ( 5)         CMPA    00,X
-F860-26 07           107 ( 4)         BNE     OCTYP
-F862-F6 40 02        108 ( 4)         LDAB    DRB
-F865-E1 01           109 ( 5)         CMPB    01,X
-F867-27 03           110 ( 4)         BEQ     TOTEM
-F869-08              111 ( 4) OCTYP   INX
-F86A-08              112 ( 4)         INX
-F86B-08              113 ( 4)         INX
-F86C-08              114 ( 4) TOTEM   INX
-F86D-08              115 ( 4)         INX
-F86E-7E F8 74        116 ( 3)         JMP     DISPLY
-F871-                117      *
-F871-                118      * ---------------------------------------------------------
-F871-                119      * MODULE 5 -- DISPLAY OUTPUT TYPE NUMBER. PORT C BITS 0 - 6
-F871-                120      *  PULL CATHODES OF THREE 7-SEGMENT LED'S LOW ACCORDING TO
-F871-                121      *  TYPE NUMBER DATA FROM FILE.
-F871-                122      *
-F871-CE F8 AC        123 ( 3) BAD     LDX     #DISBAD
-F874-C6 80           124 ( 2) DISPLY  LDAB    #$80
-F876-A6 00           125 ( 5)         LDAA    00,X
-F878-8A 80           126 ( 2)         ORAA    #$80
-F87A-B7 20 00        127 ( 5)         STAA    SEGS
-F87D-7F 40 00        128 ( 6)         CLR     DRA
-F880-7A 00 00        129 ( 6) DELAY1  DEC     DLY
-F883-26 FB           130 ( 4)         BNE     DELAY1
-F885-F7 40 00        131 ( 5)         STAB    DRA
-F888-                132
-F888-A6 01           133 ( 5)         LDAA    01,X
-F88A-8A 80           134 ( 2)         ORAA    #$80
-F88C-B7 20 00        135 ( 5)         STAA    SEGS
-F88F-7F 40 02        136 ( 6)         CLR     DRB
-F892-7A 00 00        137 ( 6) DELAY2  DEC     DLY
-F895-26 FB           138 ( 4)         BNE     DELAY2
-F897-F7 40 02        139 ( 5)         STAB    DRB
-F89A-                140
-F89A-A6 02           141 ( 5)         LDAA    02,X
-F89C-84 7F           142 ( 2)         ANDA    #$7F
-F89E-B7 20 00        143 ( 5)         STAA    SEGS
-F8A1-7A 00 00        144 ( 6) DELAY3  DEC     DLY
-F8A4-26 FB           145 ( 4)         BNE     DELAY3
-F8A6-F7 20 00        146 ( 5)         STAB    SEGS
-F8A9-7E F8 74        147 ( 3)         JMP     DISPLY
-F8AC-                148
-F8AC-                149      *
-F8AC-                150      * ---------------------------------------------------------
-F8AC-                151      * SEGMENT CODES TO DISPLAY MESSAGE "BAD":
-F8AC-                152      *
-F8AC-03 08 21        153      DISBAD  .HS     030821
-F8AF-                154
-F8AF-                155      *
-F8AF-                156      * ---------------------------------------------------------
-F8AF-                157      * TEST DATA FILES, LABELS GIVE IC TYPE. T = TTL, C = CMOS
-F8AF-                158      *
-F8AF-9B ED A4 92 
+F800-CE E1 00         37 ( 3) START   LDX     #T7400  DATA FILE STARTS WITH TTL TYPE 7400
+F803-7F 40 01         38 ( 6) NXTYP   CLR     CRA
+F806-7F 40 03         39 ( 6)         CLR     CRB
+F809-A6 00            40 ( 5)         LDAA    00,X
+F80B-E6 01            41 ( 5)         LDAB    01,X
+F80D-B7 40 00         42 ( 5)         STAA    DRA
+F810-F7 40 02         43 ( 5)         STAB    DRB
+F813-81 FF            44 ( 2)         CMPA    #$FF
+F815-01               45 ( 2)         NOP
+F816-01               46 ( 2)         NOP
+F817-26 07            47 ( 4)         BNE     GETPRT
+F819-C1 FF            48 ( 2)         CMPB    #$FF
+F81B-26 03            49 ( 4)         BNE     GETPRT
+F81D-7E F8 71         50 ( 3)         JMP     BAD
+F820-86 04            51 ( 2) GETPRT  LDAA    #04
+F822-B7 40 01         52 ( 5)         STAA    CRA
+F825-B7 40 03         53 ( 5)         STAA    CRB
+F828-                 54      *
+F828-                 55      * ---------------------------------------------------------
+F828-                 56      * MODULE 2 -- CHECK FOR END OF TYPE FLAG (A7 & B7 LO) AND
+F828-                 57      *  DISPLAY TYPE NO. IF, OTHERWISE OUTPUT 2 BYTES TO CHIP.
+F828-                 58      *  IF A7 = 1 & B7 = 0, A F-FLOP OR COUNTER IS BEING SET UP.
+F828-                 59      *  SKIP TESTS AND LOOP BACK FOR 2 MORE BYTES. OTHERWISE
+F828-                 60      *  TEST CHIP OUTPUTS AGAINST FILE DATA.
+F828-                 61      *
+F828-08               62 ( 4) NXTST   INX
+F829-08               63 ( 4)         INX
+F82A-A6 00            64 ( 5)         LDAA    00,X
+F82C-2A 23            65 ( 4)         BPL     OKOROC
+F82E-E6 01            66 ( 5)         LDAB    01,X
+F830-B7 40 00         67 ( 5)         STAA    DRA
+F833-F7 40 02         68 ( 5)         STAB    DRB
+F836-2A F0            69 ( 4)         BPL     NXTST
+F838-B6 40 00         70 ( 4)         LDAA    DRA
+F83B-A1 00            71 ( 5)         CMPA    00,X
+F83D-26 07            72 ( 4)         BNE     NOT
+F83F-F6 40 02         73 ( 4)         LDAB    DRB
+F842-E1 01            74 ( 5)         CMPB    01,X
+F844-27 E2            75 ( 4)         BEQ     NXTST
+F846-                 76      *
+F846-                 77      * ---------------------------------------------------------
+F846-                 78      * MODULE 3 -- IF COMPARISON FAILS SHUFFLE THROUGH FILE
+F846-                 79      *  UNTIL END-OF-TYPE FLAG (F0) IS FOUND, THEN ADVANCE 1
+F846-                 80      *  MORE TO NEXT TYPE.
+F846-                 81      *
+F846-08               82 ( 4) NOT     INX
+F847-A6 00            83 ( 5)         LDAA    00,X
+F849-81 F0            84 ( 2)         CMPA    #$F0
+F84B-26 F9            85 ( 4)         BNE     NOT
+F84D-08               86 ( 4)         INX
+F84E-7E F8 03         87 ( 3)         JMP     NXTYP
+F851-                 88      *
+F851-                 89      * ---------------------------------------------------------
+F851-                 90      * MODULE 4 -- IF A7 = 0 AND B7 = 0 THEN DISPLAY TYPE, BUT
+F851-                 91      *  IF A7 = 0 AND B7 = 1 THEN PULL ALL IC PINS LOW THROUGH
+F851-                 92      *  10K RESISTORS AND DO A LAST LOGIC TEST. IF TEST IS
+F851-                 93      *  PASSED CHIP IS ACTIVE OUTPUT; DISPLAY FIRST SET OF 3
+F851-                 94      *  TYPE NUMBER DIGITS. IF TEST FAILED, CHIP IS OPEN-
+F851-                 95      *  COLLECTOR; DISPLAY 2ND SET OF 3 DIGITS.
+F851-                 96      *
+F851-E6 01            97 ( 5) OKOROC  LDAB    01,X
+F853-2A 1F            98 ( 4)         BPL     DISPLY
+F855-B7 40 00         99 ( 5)         STAA    DRA
+F858-F7 40 02        100 ( 5)         STAB    DRB
+F85B-B6 40 00        101 ( 4)         LDAA    DRA
+F85E-A1 00           102 ( 5)         CMPA    00,X
+F860-26 07           103 ( 4)         BNE     OCTYP
+F862-F6 40 02        104 ( 4)         LDAB    DRB
+F865-E1 01           105 ( 5)         CMPB    01,X
+F867-27 03           106 ( 4)         BEQ     TOTEM
+F869-08              107 ( 4) OCTYP   INX
+F86A-08              108 ( 4)         INX
+F86B-08              109 ( 4)         INX
+F86C-08              110 ( 4) TOTEM   INX
+F86D-08              111 ( 4)         INX
+F86E-7E F8 74        112 ( 3)         JMP     DISPLY
+F871-                113      *
+F871-                114      * ---------------------------------------------------------
+F871-                115      * MODULE 5 -- DISPLAY OUTPUT TYPE NUMBER. PORT C BITS 0 - 6
+F871-                116      *  PULL CATHODES OF THREE 7-SEGMENT LED'S LOW ACCORDING TO
+F871-                117      *  TYPE NUMBER DATA FROM FILE.
+F871-                118      *
+F871-CE E0 00        119 ( 3) BAD     LDX     #DISBAD
+F874-C6 80           120 ( 2) DISPLY  LDAB    #$80
+F876-A6 00           121 ( 5)         LDAA    00,X
+F878-8A 80           122 ( 2)         ORAA    #$80
+F87A-B7 20 00        123 ( 5)         STAA    SEGS
+F87D-7F 40 00        124 ( 6)         CLR     DRA
+F880-7A 00 00        125 ( 6) DELAY1  DEC     DLY
+F883-26 FB           126 ( 4)         BNE     DELAY1
+F885-F7 40 00        127 ( 5)         STAB    DRA
+F888-                128
+F888-A6 01           129 ( 5)         LDAA    01,X
+F88A-8A 80           130 ( 2)         ORAA    #$80
+F88C-B7 20 00        131 ( 5)         STAA    SEGS
+F88F-7F 40 02        132 ( 6)         CLR     DRB
+F892-7A 00 00        133 ( 6) DELAY2  DEC     DLY
+F895-26 FB           134 ( 4)         BNE     DELAY2
+F897-F7 40 02        135 ( 5)         STAB    DRB
+F89A-                136
+F89A-A6 02           137 ( 5)         LDAA    02,X
+F89C-84 7F           138 ( 2)         ANDA    #$7F
+F89E-B7 20 00        139 ( 5)         STAA    SEGS
+F8A1-7A 00 00        140 ( 6) DELAY3  DEC     DLY
+F8A4-26 FB           141 ( 4)         BNE     DELAY3
+F8A6-F7 20 00        142 ( 5)         STAB    SEGS
+F8A9-7E F8 74        143 ( 3)         JMP     DISPLY
+F8AC-                144
+F8AC-                145      *
+F8AC-                146      * ---------------------------------------------------------
+F8AC-                147      * SEGMENT CODES TO DISPLAY MESSAGE "BAD":
+F8AC-                148      *
+E000-                149              .OR     $E000
+E000-                150              .TA     $0000
+E000-03 08 21        151      DISBAD  .HS     030821
+E003-                152
+E003-                153      *
+E003-                154      * ---------------------------------------------------------
+E003-                155      * TEST DATA FILES, LABELS GIVE IC TYPE. T = TTL, C = CMOS
+E003-                156      *
+E100-                157              .OR     $E100
+E100-                158              .TA     $0100
+E100-9B ED A4 92 
      B6 B6 AD DA 
      9B EC 24 92 
      7F 40 40 7F 
      40 30 F0        159      T7400   .HS     9BEDA492B6B6ADDA9BEC24927F40407F4030F0
-F8C2-95 D5 AA AA 
+E113-95 D5 AA AA 
      95 D4 2A AA 
      7F 40 19 7F 
      40 12 F0        160      T7404   .HS     95D5AAAA95D42AAA7F40197F4012F0
-F8D1-9F FD 9B EC 
+E122-9F FD 9B EC 
      BA AE B9 CE 
      B3 E6 AB EA 
      20 82 7F 24 
      40 7F 24 24 
      F0              161      T7420   .HS     9FFD9BECBAAEB9CEB3E6ABEA20827F24407F2424F0
-F8E6-9B ED 80 81 
+E137-9B ED 80 81 
      B6 B7 AD DB 
      9B ED 2B DB 
      7F 00 02 79 
      30 02 F0        162      T7486   .HS     9BED8081B6B7ADDB9BED2BDB7F0002793002F0
-F8F9-9B ED 80 81 
+E14A-9B ED 80 81 
      B6 B7 AD DB 
      BF FF 3F FF 
      7F 30 24 79 
      24 12 F0        163      T74125  .HS     9BED8081B6B7ADDBBFFF3FFF7F3024792412F0
-F90C-FF FE FF FE 
+E15D-FF FE FF FE 
      FE FF FB FF 
      EF FF BF FF 
      FD FF F7 FF 
      DF FF 79 30 
      30 F0           164      T74133  .HS     FFFEFFFEFEFFFBFFEFFFBFFFFDFFF7FFDFFF793030F0
-F922-BF 80 E0 BF 
+E173-BF 80 E0 BF 
      E1 DF E2 EF 
      E3 F7 E4 FB 
      E5 FD E6 FE 
      A7 FF EF FF 
      D7 FF C7 FF 
      79 30 00 F0     165      T74138  .HS     BF80E0BFE1DFE2EFE3F7E4FBE5FDE6FEA7FFEFFFD7FFC7FF793000F0
-F93E-99 E7 99 6F 
+E18F-99 E7 99 6F 
      91 CF 98 5F 
      EE 94 FE 1C 
      9C 9C BC 5A 
      BC DE BD 9D 
      79 18 30 F0     166      T74193  .HS     99E7996F91CF985FEE94FE1C9C9CBC5ABCDEBD9D791830F0
-F956-B9 F3 B0 E1 
+E1A7-B9 F3 B0 E1 
      BF FF 86 8D 
      10 D3 46 79 
      02 46 03 21 
      F0              167      C4116   .HS     B9F3B0E1BFFF868D10D3467902460321F0
-F967-FC 9F D1 C5 
+E1B8-FC 9F D1 C5 
      91 44 96 B4 
      A2 22 A5 D2 
      8A A8 46 24 
      78 F0           168      C4027   .HS     FC9FD1C5914496B4A222A5D28AA8462478F0
-F979-                169
-F979-                170      * ---------------------------------------------------------
-F979-                171      * STORE VECTORS AT END OF EPROM.
-F979-                172      *
+E1CA-                169
+E1CA-                170      * ---------------------------------------------------------
+E1CA-                171      * STORE VECTORS AT END OF EPROM.
+E1CA-                172      *
 FFFE-                173              .OR     $FFFE
 FFFE-                174              .TA     $1FFE
 FFFE-F8 00           175              .DA     START   RESET VECTOR
