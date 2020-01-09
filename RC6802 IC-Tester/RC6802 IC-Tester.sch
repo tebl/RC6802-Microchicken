@@ -1925,4 +1925,8 @@ Connection ~ 1775 6400
 Wire Wire Line
 	1775 6600 1875 6600
 Connection ~ 1775 6500
+Text Notes 2450 11025 0    60   ~ 0
+$2000
+Text Notes 2450 7050 0    60   ~ 0
+$2400
 $EndSCHEMATC

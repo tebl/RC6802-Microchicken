@@ -2185,4 +2185,6 @@ Wire Bus Line
 	1450 8550 1450 2575
 Text Notes 15400 11075 0    60   ~ 0
 B
+Text Notes 2450 9150 0    60   ~ 0
+$2000
 $EndSCHEMATC
