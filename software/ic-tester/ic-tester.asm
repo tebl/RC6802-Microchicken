@@ -26,10 +26,6 @@ SEGS    .EQ     $2000   PORT C, LED DISPLAY OUTPUT LATCH
 PRTD    .EQ     $2400   PORT D, LED DISPLAY CONTROL LATCH
 
 DLY     .EQ     $0000   DELAY COUNTER STROBES LEDS 3 MS EACH
-
-;        .OR     $FC00   * FILE OF PATTERNS FOR HEX DISPLAY
-;        .TA     $1C00   *  ON 7-SEG LEDS STARTS AT $FC00.
-;        .HS     80.F2.48.60.32.24.04.F0.00.30.10.06.8C.42.0C.1C
         
         .OR     $F800   SUBROUTINES & PROGM START AT $F800 -
         .TA     $1800    $1800 WITHIN EEPROM.
@@ -150,6 +146,8 @@ DELAY3  DEC     DLY
 * ---------------------------------------------------------
 * SEGMENT CODES TO DISPLAY MESSAGE "BAD":
 *
+        .OR     $F900
+        .TA     $1900
 DISBAD  .HS     030821
 
 *
