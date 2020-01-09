@@ -23,10 +23,11 @@ CRB     .EQ     $4003   CONTROL REGISTER, PIA PORT B
 DRB     .EQ     $4002   PORT B, PIA: TAPE & EPROM DATA
 
 SEGS    .EQ     $2000   PORT C, LED DISPLAY OUTPUT LATCH
-PRTD    .EQ     $2400   PORT D, LED DISPLAY CONTROL LATCH
+SEGCTL  .EQ     $2400   PORT D, LED DISPLAY CONTROL LATCH
 
-DLY     .EQ     $0000   DELAY COUNTER STROBES LEDS 3 MS EACH
-        
+CLOCK   .EQ     $76     TIME-DELAY VALUE & OUTER-LOOP COUNTER
+INRBUF  .EQ     $75     TIME-DELAY COUNTER INNER LOOP
+
         .OR     $F800   SUBROUTINES & PROGM START AT $F800 -
         .TA     $1800    $1800 WITHIN EEPROM.
 *
@@ -34,7 +35,9 @@ DLY     .EQ     $0000   DELAY COUNTER STROBES LEDS 3 MS EACH
 * MODULE 1 -- SET UP I/O PORTS FOR INPUTS AND OUTPUTS.
 *  CHECK FOR END OF FILE FLAG ($FF).
 *
-START   LDX     #T7400  DATA FILE STARTS WITH TTL TYPE 7400
+START   LDAA    #$FF    DISABLE 7-SEGMENT DISPLAYS
+        STAA    SEGCTL
+        LDX     #T7400  DATA FILE STARTS WITH TTL TYPE 7400
 NXTYP   CLR     CRA
         CLR     CRB
         LDAA    00,X
@@ -113,35 +116,55 @@ TOTEM   INX
 *       
 * ---------------------------------------------------------
 * MODULE 5 -- DISPLAY OUTPUT TYPE NUMBER. PORT C BITS 0 - 6
-*  PULL CATHODES OF THREE 7-SEGMENT LED'S LOW ACCORDING TO
+*  PULL CATHODES OF THREE 7-SEGMENT LEDS LOW ACCORDING TO
 *  TYPE NUMBER DATA FROM FILE.
 *
 BAD     LDX     #DISBAD
-DISPLY  LDAB    #$80
-        LDAA    00,X
-        ORAA    #$80
+DISPLY  LDAA    00,X
         STAA    SEGS
-        CLR     DRA
-DELAY1  DEC     DLY
-        BNE     DELAY1
-        STAB    DRA
-        
+        LDAA    #$FE
+        STAA    SEGCTL    
+        LDAA    #$0C
+        STAA    CLOCK
+        JSR     DELAY   DELAY FOR APPROX 3 MS
+
         LDAA    01,X
-        ORAA    #$80
         STAA    SEGS
-        CLR     DRB
-DELAY2  DEC     DLY
-        BNE     DELAY2
-        STAB    DRB
+        LDAA    #$FD
+        STAA    SEGCTL    
+        LDAA    #$0C
+        STAA    CLOCK
+        JSR     DELAY   DELAY FOR APPROX 3 MS
         
         LDAA    02,X
-        ANDA    #$7F
         STAA    SEGS
-DELAY3  DEC     DLY
-        BNE     DELAY3
-        STAB    SEGS
+        LDAA    #$FB
+        STAA    SEGCTL    
+        LDAA    #$0C
+        STAA    CLOCK
+        JSR     DELAY   DELAY FOR APPROX 3 MS
         JMP     DISPLY
-        
+
+*
+* ---------------------------------------------------------       
+* SUBROUTINE FOR UNIVERSAL TIME DELAYS VIA VALUE IN "CLOCK".
+* DELAY = (C * C * 18) + (C * 14) + (16) MICROSECONDS.
+* MAX DELAY = 1.2 SEC ON 1-MHZ CLOCK.
+*
+DELAY   PSHB
+        LDAB    CLOCK   OUTER AND INNER LOOPS EACH
+OTRLOP  STAB    INRBUF   DECREMENT "CLOCK" TIMES.
+INRLOP  NOP
+        NOP             NO-OPERATION JUST
+        NOP              TO BURN TIME.
+        NOP
+        DEC     INRBUF
+        BNE     INRLOP  LEAVE INNER LOOP WHEN INRBUF = 0
+        DEC     CLOCK
+        BNE     OTRLOP  LEAVE OUTER LOOP WHEN CLOCK = 0
+        PULB
+        RTS
+
 *
 * ---------------------------------------------------------
 * SEGMENT CODES TO DISPLAY MESSAGE "BAD":
